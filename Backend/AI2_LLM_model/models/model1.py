@@ -4,6 +4,7 @@ import difflib
 from typing import List, Dict, Any, Optional
 from langchain_openai import ChatOpenAI
 
+
 CONTEXT_FILE = "customer_context.txt"
 ALT_MEMORY_FILE = "alternatives_memory.json"
 BATCH_SIZE = 3  # number of alternatives shown at a time
@@ -525,6 +526,281 @@ Return ONLY valid JSON:
         raw = self.llm.invoke([("human", prompt)])
         clean = self._strip_think(raw.content)
         return clean
+    
+        # ---------------------------------------------------
+    # 🆕 PRE-PURCHASE MULTI-PRODUCT SUBSTITUTION HANDLER
+    # ---------------------------------------------------
+    def suggest_prepurchase_substitutions(
+        self,
+        risky_products: list,  
+        # Example:
+        # [
+        #   {
+        #       "product_name": "Banana A",
+        #       "missing_quantity": 30,
+        #       "risk_score": 0.78,
+        #       "alternatives": [
+        #           {"product_name": "Banana B", "allergens": [], "non_allergens": [], "ingredients": ["banana"], "prediction_score": 0.92, "quantity": 50},
+        #           ...
+        #       ]
+        #   },
+        #   {...},   # for multiple products
+        # ]
+        customer_message: str = None
+    ):
+        """
+        Pre-purchase assistant.
+        - Handles MULTIPLE risky products BEFORE purchase is confirmed.
+        - Suggests 3 strict alternatives per product.
+        - Supports follow-up questions.
+        - Reuses the SAME conversation context file.
+        - Uses a separate state file to manage alternative batches per product.
+        """
+
+        context = self._load_context()
+
+        # ===============================================================
+        # CASE 1 — INITIAL CALL (list of risky products is provided)
+        # ===============================================================
+        if risky_products:
+            # Build structured state to remember alternatives for EACH risky product
+            state = {
+                "products": {},
+                "recommended_counts": {},
+            }
+
+            response_options = {}
+            response_messages = []
+
+            for p in risky_products:
+                original = p["product_name"]
+                missing_qty = p["missing_quantity"]
+
+                # Strict filtering (quantity + category)
+                strict_alts = [
+                    alt for alt in p["alternatives"]
+                    if alt["quantity"] >= missing_qty
+                ]
+
+                # If strict filtering empties — fall back to all but still category-only.
+                if not strict_alts:
+                    strict_alts = p["alternatives"]
+
+                # Sort them (prediction_score desc → quantity desc)
+                sorted_alts = sorted(
+                    strict_alts,
+                    key=lambda x: (-x["prediction_score"], -x["quantity"])
+                )
+
+                # Save to state
+                state["products"][original] = sorted_alts
+                state["recommended_counts"][original] = 0
+
+                # First 3 alternatives
+                batch = sorted_alts[:3]
+                batch_names = [a["product_name"] for a in batch]
+
+                # Build user-facing message (LLM)
+                msg_prompt = f"""
+The customer is PRE-PURCHASE and considering buying items.
+
+One item has low reliability:
+"{original}"
+
+Write ONE short, friendly message in PAST TENSE saying:
+- "We are sorry to say that {original} may not be reliably delivered"
+- "Here are some alternatives"
+- Include ONLY these: {", ".join(batch_names)}
+- DO NOT invent new product names.
+- Tone: warm, polite, helpful.
+Return ONLY the message.
+"""
+
+                raw = self.llm.invoke([("human", msg_prompt)])
+                message = self._strip_think(raw.content).strip()
+
+                # Add to response
+                response_messages.append(message)
+                response_options[original] = batch
+
+                # Update counters
+                state["recommended_counts"][original] = len(batch)
+
+            # Save global state file
+            with open("prepurchase_state.json", "w") as f:
+                json.dump(state, f, indent=2)
+
+            combined_message = " ".join(response_messages)
+
+            self._append_context(f"Customer said: {customer_message}")
+            self._append_context(f"Model replied: {combined_message}")
+
+            return json.dumps(
+                {
+                    "Answers": combined_message,
+                    "Options": response_options
+                },
+                ensure_ascii=False,
+                indent=2
+            )
+
+        # ===============================================================
+        # CASE 2 — FOLLOW-UP QUESTIONS OR NORMAL CHAT
+        # ===============================================================
+        if os.path.exists("prepurchase_state.json"):
+            with open("prepurchase_state.json", "r") as f:
+                state = json.load(f)
+
+            products = state["products"]
+            counters = state["recommended_counts"]
+
+            # Detect which product they are asking about
+            msg = (customer_message or "").lower()
+
+            # Find product name contained in message
+            target_product = None
+            for product_name in products.keys():
+                if product_name.lower().split()[0] in msg:
+                    target_product = product_name
+                    break
+
+            # ===========================================================
+            # ASK FOR MORE OPTIONS (for a specific product)
+            # ===========================================================
+            if target_product and user_wants_more(customer_message):
+                all_alts = products[target_product]
+                used = counters[target_product]
+
+                next_batch = all_alts[used : used + 3]
+
+                if not next_batch:
+                    # No more options — polite ending
+                    final_message = (
+                        f"Thanks for checking! Unfortunately, we don’t have any more "
+                        f"alternatives for {target_product}, but feel free to ask anything else."
+                    )
+
+                    return json.dumps(
+                        {
+                            "Answers": final_message,
+                            "Options": {}
+                        },
+                        ensure_ascii=False,
+                        indent=2
+                    )
+
+                # Update counter
+                counters[target_product] = min(used + 3, len(all_alts))
+
+                # Save new state
+                with open("prepurchase_state.json", "w") as f:
+                    json.dump(state, f, indent=2)
+
+                batch_names = [a["product_name"] for a in next_batch]
+
+                msg_prompt = f"""
+Write ONE short, friendly sentence in past tense saying:
+"Here are some more alternatives for {target_product}"
+Only list: {", ".join(batch_names)}
+Do not invent products.
+Return ONLY the final message.
+"""
+
+                raw = self.llm.invoke([("human", msg_prompt)])
+                final_msg = self._strip_think(raw.content).strip()
+
+                return json.dumps(
+                    {"Answers": final_msg, "Options": {target_product: next_batch}},
+                    ensure_ascii=False,
+                    indent=2
+                )
+
+            # ===========================================================
+            # NORMAL CHAT (not asking for more alternatives)
+            # ===========================================================
+            normal_prompt = f"""
+You are Valio's friendly assistant.
+Customer wrote: "{customer_message}"
+
+Reply politely in ONE sentence.
+Do NOT suggest alternatives unless they explicitly ask for more.
+
+Return ONLY:
+
+{{
+  "Answers": "string",
+  "Options": {{}}
+}}
+"""
+
+            raw = self.llm.invoke([("human", normal_prompt)])
+            clean = self._strip_think(raw.content)
+
+            self._append_context(f"Customer said: {customer_message}")
+            self._append_context(f"Model replied: {clean}")
+
+            return clean
+
+        # ===============================================================
+        # CASE 3 — No state, no risky products → normal chat fallback
+        # ===============================================================
+        return json.dumps(
+            {"Answers": "How can I help you today?", "Options": {}},
+            ensure_ascii=False,
+            indent=2
+        )
+
+# ---------------------------------------------------
+# PRE-PURCHASE TESTS
+# ---------------------------------------------------
+if __name__ == "__main__":
+    model = ValioCustomerServiceLLM()
+
+    risky_products = [
+        {
+            "product_name": "Banana A",
+            "missing_quantity": 30,
+            "risk_score": 0.65,
+            "alternatives": [
+                {"product_name": "Banana B", "allergens": [], "non_allergens": [], "ingredients": ["banana"], "prediction_score": 0.92, "quantity": 50},
+                {"product_name": "Banana C", "allergens": [], "non_allergens": [], "ingredients": ["banana"], "prediction_score": 0.80, "quantity": 80},
+                {"product_name": "Banana D", "allergens": [], "non_allergens": [], "ingredients": ["banana"], "prediction_score": 0.85, "quantity": 60},
+                {"product_name": "Banana E", "allergens": [], "non_allergens": [], "ingredients": ["banana"], "prediction_score": 0.75, "quantity": 100},
+            ]
+        },
+        {
+            "product_name": "Apple X",
+            "missing_quantity": 10,
+            "risk_score": 0.71,
+            "alternatives": [
+                {"product_name": "Apple A", "allergens": [], "non_allergens": [], "ingredients": ["apple"], "prediction_score": 0.91, "quantity": 20},
+                {"product_name": "Apple B", "allergens": [], "non_allergens": [], "ingredients": ["apple"], "prediction_score": 0.87, "quantity": 15},
+                {"product_name": "Apple C", "allergens": [], "non_allergens": [], "ingredients": ["apple"], "prediction_score": 0.85, "quantity": 40},
+            ]
+        }
+    ]
+
+    print("=== First Turn: Initial Pre-Purchase Suggestions ===")
+    print(model.suggest_prepurchase_substitutions(risky_products))
+
+    print("=== Second Turn: Ask for more alternatives for Banana A ===")
+    print(model.suggest_prepurchase_substitutions(
+        risky_products=None,
+        customer_message="Do you have more options for banana?"
+    ))
+
+    print("=== Third Turn: Ask for more alternatives for Apple A ===")
+    print(model.suggest_prepurchase_substitutions(
+        risky_products=None,
+        customer_message="Do you have more options for apple?"
+    ))
+
+    print("=== Fourth Turn: Normal Chat ===")
+    print(model.suggest_prepurchase_substitutions(
+        risky_products=None,
+        customer_message="Thanks, that's all."
+    ))
+
 
 
 # ---------------------------------------------------
@@ -587,14 +863,31 @@ if __name__ == "__main__":
     print("\n=== Second turn (user asks for more) ===")
     print(
         model.suggest_substitutions(
-            customer_message="Do you have any other alternatives?"
+            customer_message="How are you"
         )
     )
 
-    # Third turn: user says bye
-    print("\n=== Third turn (user ends) ===")
+    # Third turn: user asks for more
+    print("\n=== Third turn (user asks for more) ===")
     print(
         model.suggest_substitutions(
-            customer_message="Thanks, bye!"
+            customer_message="Were there alternatives?"
         )
     )
+
+    # Fourth turn: user asks for even more
+    print("\n=== Fourth turn (user asks for even more) ===")
+    print(
+        model.suggest_substitutions(
+            customer_message="Are there any other options?"
+        )
+    )
+
+    # Fifth turn: user says thanks
+    print("\n=== Fifth turn (user says thanks) ===")
+    print(
+        model.suggest_substitutions(
+            customer_message="Thanks for your help!"
+        )
+    )
+
