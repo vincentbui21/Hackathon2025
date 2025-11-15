@@ -1,0 +1,30 @@
+{
+  "original_product": "Regular Milk 1L",
+  "sorted_alternatives": [
+    {
+      "name": "Whole Milk 1L",
+      "price": 10,
+      "predicted_success": 0.93,
+      "availability": 99
+    },
+    {
+      "name": "Oat Drink 1L",
+      "price": 12,
+      "predicted_success": 0.91,
+      "availability": 100
+    },
+    {
+      "name": "Skimmed Milk 1L",
+      "price": 12,
+      "predicted_success": 0.84,
+      "availability": 78
+    },
+    {
+      "name": "Lactose-Free Milk 1.5L",
+      "price": 11,
+      "predicted_success": 0.76,
+      "availability": 870
+    }
+  ],
+  "recommended_count": 4
+}

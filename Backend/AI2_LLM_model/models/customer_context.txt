@@ -1,0 +1,9 @@
+Customer said: None
+Model replied: I'm so sorry to hear that our Regular Milk 1L might not be available for delivery. If you're looking for a milk alternative, you might also like our Whole Milk 1L, Oat Drink 1L, or Skimmed Milk 1L - we'd be happy to help you with those options.
+Customer said: Do you have anything else?
+Model replied: We also have our Lactose-Free Milk 1.5L and Skimmed Milk 1.5L available, or if you're looking for something a bit different, our A2 Milk 1L and Semi-Skimmed Milk 1L might be worth considering.
+Customer said: bye
+Model replied: {
+  "final_message": "It was nice chatting with you, goodbye!",
+  "chosen_alternatives": []
+}

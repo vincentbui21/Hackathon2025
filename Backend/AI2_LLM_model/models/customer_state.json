@@ -1,0 +1,67 @@
+{
+  "phase": "strict",
+  "original_product": "Banana A",
+  "specific": "general",
+  "broad": "general",
+  "purpose": null,
+  "alternatives": [
+    {
+      "name": "Banana B",
+      "price": 2.1,
+      "predicted_success": 0.92,
+      "availability": 100,
+      "specific_category": "general",
+      "broad_category": "general"
+    },
+    {
+      "name": "Banana C",
+      "price": 2.0,
+      "predicted_success": 0.9,
+      "availability": 80,
+      "specific_category": "general",
+      "broad_category": "general"
+    },
+    {
+      "name": "Banana D",
+      "price": 1.9,
+      "predicted_success": 0.88,
+      "availability": 60,
+      "specific_category": "general",
+      "broad_category": "general"
+    },
+    {
+      "name": "Banana E",
+      "price": 2.2,
+      "predicted_success": 0.86,
+      "availability": 50,
+      "specific_category": "general",
+      "broad_category": "general"
+    },
+    {
+      "name": "Apple A",
+      "price": 1.5,
+      "predicted_success": 0.85,
+      "availability": 90,
+      "specific_category": "general",
+      "broad_category": "general"
+    },
+    {
+      "name": "Orange B",
+      "price": 1.6,
+      "predicted_success": 0.83,
+      "availability": 70,
+      "specific_category": "general",
+      "broad_category": "general"
+    },
+    {
+      "name": "Grapefruit A",
+      "price": 1.8,
+      "predicted_success": 0.8,
+      "availability": 40,
+      "specific_category": "general",
+      "broad_category": "general"
+    }
+  ],
+  "used_strict": 6,
+  "used_expanded": 0
+}

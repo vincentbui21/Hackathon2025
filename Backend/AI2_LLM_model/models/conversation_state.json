@@ -1,0 +1,91 @@
+{
+  "phase": "strict",
+  "original_product": "Banana A",
+  "strict": [
+    {
+      "name": "Banana B",
+      "price": 5,
+      "predicted_success": 0.85,
+      "availability": 100,
+      "specific": "general",
+      "broad": "general"
+    },
+    {
+      "name": "Banana C",
+      "price": 6,
+      "predicted_success": 0.8,
+      "availability": 95,
+      "specific": "general",
+      "broad": "general"
+    },
+    {
+      "name": "Banana D",
+      "price": 4,
+      "predicted_success": 0.75,
+      "availability": 90,
+      "specific": "general",
+      "broad": "general"
+    },
+    {
+      "name": "Apple A",
+      "price": 7,
+      "predicted_success": 0.7,
+      "availability": 100,
+      "specific": "general",
+      "broad": "general"
+    },
+    {
+      "name": "Orange A",
+      "price": 8,
+      "predicted_success": 0.65,
+      "availability": 85,
+      "specific": "general",
+      "broad": "general"
+    }
+  ],
+  "expanded": [
+    {
+      "name": "Banana B",
+      "price": 5,
+      "predicted_success": 0.85,
+      "availability": 100,
+      "specific": "general",
+      "broad": "general"
+    },
+    {
+      "name": "Banana C",
+      "price": 6,
+      "predicted_success": 0.8,
+      "availability": 95,
+      "specific": "general",
+      "broad": "general"
+    },
+    {
+      "name": "Banana D",
+      "price": 4,
+      "predicted_success": 0.75,
+      "availability": 90,
+      "specific": "general",
+      "broad": "general"
+    },
+    {
+      "name": "Apple A",
+      "price": 7,
+      "predicted_success": 0.7,
+      "availability": 100,
+      "specific": "general",
+      "broad": "general"
+    },
+    {
+      "name": "Orange A",
+      "price": 8,
+      "predicted_success": 0.65,
+      "availability": 85,
+      "specific": "general",
+      "broad": "general"
+    }
+  ],
+  "idx_strict": 3,
+  "idx_expanded": 0,
+  "purpose": null
+}
