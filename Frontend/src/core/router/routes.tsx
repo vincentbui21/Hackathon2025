@@ -8,7 +8,7 @@ export const router = createBrowserRouter([
     element: <BookingsPage />,
   },
   {
-    path: '/bookings',
+    path: '/booking',
     element: <BookingsPage />,
   },
   {

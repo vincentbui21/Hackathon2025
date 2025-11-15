@@ -1,6 +1,8 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import List
+from app.database import get_connection
+
 
 router = APIRouter(prefix="/booking", tags=["Booking"])
 
@@ -22,3 +24,20 @@ async def get_products():
 async def create_order(order_data: OrderRequest):
     # Access list of items via order_data.items
     return {"message": "Order created", "order": [item.dict() for item in order_data.items]}
+
+
+@router.get("/products")
+async def get_products():
+    conn = get_connection()
+    if conn is None:
+        return {"error": "Cannot connect to database"}
+
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM Product")
+    products = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return {"products": products}
+

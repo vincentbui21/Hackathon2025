@@ -1,0 +1,2201 @@
+[
+  {
+    "gtin": "6413467551604",
+    "name": "6 x Fazer Gluten-Free Omar doughnut 2pcs 230g, fully baked frozen",
+    "producers": [
+      {
+        "id": "6410349999998",
+        "name": "Fazer Leipomot Oy"
+      }
+    ],
+    "keyIngredients": "gluten free WHEAT starch, sugar, water, lactose free BUTTER, rapeseed oil, EGG, glucose syrup, lactose free MILK powder, yeast, emulsifier (E471), thickeners (E464, E412, E466, E415, E440, E509, E452, E406, E410), psyllium, caramel syrup, salt, raising agents (E575, E500), fully hydrogenated rapeseed oil, caramelized sugar, preservative (E202), flavours (e.g. vanillin), iron, vitamins (B1, B2, B3, B6). MAY CONTAIN HAZELNUTS, ALMONDS, MUSTARD SEEDS AND SESAME SEEDS. Filling 12 %.",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AE",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AN",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AS",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "BM",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SA",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SH",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "AC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AF",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AP",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AU",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AW",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AY",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "ML",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "NL",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "UM",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "6430013860133",
+    "name": "Aduki organic amaranth 500g",
+    "producers": [
+      {
+        "id": "6429903977709",
+        "name": "Aduki Oy"
+      }
+    ],
+    "keyIngredients": "Organic amaranth",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AN",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AP",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AS",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AY",
+        "unit": "MAY_CONTAIN"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "AC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AE",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AF",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AU",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AW",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "NL",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "UM",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "6417700053122",
+    "name": "Myllyn Paras Emännän Semi Coarse Wheat Flour 2kg",
+    "producers": [
+      {
+        "id": "6429921852576",
+        "name": "Lantmännen Cerealia Oy"
+      }
+    ],
+    "keyIngredients": "WHEAT FLOUR, flour improver (ascorbic acid)",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "AC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AE",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AF",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AN",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AP",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AS",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AU",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AY",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "NL",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "UM",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "4006733004458",
+    "name": "Dr. Oetker Bolognese Fix dry mix 2.75kg",
+    "producers": [
+      {
+        "id": "6432009999995",
+        "name": "Oy Conaxess Trade Finland Ab"
+      }
+    ],
+    "keyIngredients": "Maltodextrin, 19% tomatoes, modified starch, iodized salt (salt, potassium iodate), palm fat, sugar, spices (paprika, garlic), onion, flavoring, herbs, yeast extract, acid (citric acid). May contain traces of: MILK, EGG, GLUTEN-CONTAINING CEREALS.",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AE",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AM",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AW",
+        "unit": "MAY_CONTAIN"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "6413467418303",
+    "name": "Fazer Taikayö chocolate cake roll 485g",
+    "producers": [
+      {
+        "id": "6410349999998",
+        "name": "Fazer Leipomot Oy"
+      }
+    ],
+    "keyIngredients": "CREAM, apricot marmelade [sugar, water, dried apricots, apple, thickener (E440), modified starch, acidity regulator (E330), preservative (E202)], EGG, sugar, WHEAT flour, chocolate (9 %)[sugar, cocoa mass, cocoa butter, MILK fat, emulsifier (E322, incl. SOYA), flavouring (vanillin)], vegetable fat mix [vegetable fat and oil (rapeseed, coconut, shea), sugar, water, emulsifier (E475), salt, preservative (E202), acidity regulator (E330), flavour], cocoa powder, truffle [sugar, cocoa powder, hydrogenated cocoa fat, vegetable fat (cocoa, rapeseed), emulsifier (E322), flavour (vanillin)], emulsifiers (E471, E477), starch (WHEAT, corn), BARLEY starch syrup, raising agents (E450, E500), salt, gelatin, preservative (E202), stabilizer (E407), flavours (e.g. vanillin). MAY CONTAIN TRACES OF NUT, ALMOND AND LUPIN. Filling 40 %. Keep in the refrigerator. Stored frozen. Do not refreeze.",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AE",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AN",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AY",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "GB",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "ML",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "NC",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "NL",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "AC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AF",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AP",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AS",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AU",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "UM",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "16416710300841",
+    "name": "8 x Filos feta lactose free PDO 150g",
+    "producers": [
+      {
+        "id": "6416710999994",
+        "name": "Gavrielides E. Oy"
+      }
+    ],
+    "keyIngredients": "Pasteurized sheep's and goat's MILK, salt, starter culture, rennet. The rennet is of microbiological origin",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "6413467356209",
+    "name": "Fazer Ready baked Rye Rice Pasty 56 x 70g, fully baked frozen",
+    "producers": [
+      {
+        "id": "6410349999998",
+        "name": "Fazer Leipomot Oy"
+      }
+    ],
+    "keyIngredients": "water, rice (23 %), whole grain RYE flour (9 %), WHEAT flour, vegetable margarine [rapeseed oil, water, fully hydrogenated rapeseed oil, salt, emulsifier (E471), flavour, colour (E160a)], rapeseed oil, dextrose, MILK protein, SIFTED RYE FLOUR, iodized salt (1,2 %), WHEAT gluten, RYE malt. 70 % of the flour used in baking is rye. The origin of rice is EU.",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "NR",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "AC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AE",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AF",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AN",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AP",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AS",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AU",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AY",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "ML",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "NL",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "UM",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "6405234048585",
+    "name": "Vehmaan Maut, Lingonberry-crea 0,5 kg",
+    "producers": [
+      {
+        "id": "6405234999993",
+        "name": "Vehmaan Maut Oy"
+      }
+    ],
+    "keyIngredients": "whipping cream(CREAM, stabiliser(carrageenan)), lingonberry(Finland)(24,3%), sugar, water, fresh cheese(MILK, CREAM, salt, thickener(E407,E410), acid), gelatine",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "6406600664477",
+    "name": "Familia Pro Blue Cheese Dip 2,5 kg",
+    "producers": [
+      {
+        "id": "6406609999990",
+        "name": "PNM Chipsters Oy"
+      }
+    ],
+    "keyIngredients": "Lactose free SOUR MILK (pasteurized CREAM, potato starch, starter), blue CHEESE 8,7 % [pasteurized MILK, starter, salt, blue mould starter (P.roqueforti), preservative (E235)], salt, modified corn starch, maltodextrin, glucose, sugar, onion, marjoram, CREAM POWDER, blue cheese flavouring, acidity regulator (E330), preservative (E211, E202).",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "6430014210791",
+    "name": "3x Riitan Herkku blueberry platepie 1250g",
+    "producers": [
+      {
+        "id": "6408629999998",
+        "name": "Riitan Herkku Oy"
+      }
+    ],
+    "keyIngredients": "Bilberry (27 %), WHEAT FLOUR, vegetable oil (canola, coconut, oilseed rape), water, sugar, glucose syrup, WHEAT STARCH, WHOLE EGG POWDER, EGG WHITE POWDER, lifting agent (E500, E450), salt, thickening agent (E466), emulsifier (E471), colour (E160a), aroma. May contain almond and milk.",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AE",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AM",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AN",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "SA",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "6416577025850",
+    "name": "Schulstad Bakery Solutions Croissant ready baked 40x65g, frozen",
+    "producers": [
+      {
+        "id": "6416577999991",
+        "name": "Lantmännen Unibake Oy Ab Finland"
+      }
+    ],
+    "keyIngredients": "WHEAT flour (WHEAT: EU), water, palm oil, yeast, sugar, BUTTER, coconut oil, EGG, WHEAT gluten, salt, rapeseed oil, emulsifier (E471), flour treatment agent (E300), acidity regulator (E330), natural flavouring. May contain traces of hazelnuts, almond, sesame seeds.",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AE",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AN",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AS",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "SA",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SH",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "6416577028592",
+    "name": "Myllyn Paras Gluten-free Star shaped crown 20x60g",
+    "producers": [
+      {
+        "id": "6416577999991",
+        "name": "Lantmännen Unibake Oy Ab Finland"
+      }
+    ],
+    "keyIngredients": "Gluten-free WHEAT starch, lactose-free BUTTER, water, sugar, plum, EGG, salt, modified corn starch, corn starch, psyllium, thickeners (E412, E466, E440), raising agents (E575, E500, E450), acidity regulators (E330, E333), color (E150d), preservative (E202). May contain traces of hazelnut, almond, mustard, celery, soy. Product contains plum filling 16% (Finland).",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AE",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AN",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AY",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "BC",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "BM",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SA",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SH",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "AW",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "4806525094847",
+    "name": "La Rose Noire Large round Vegan tart shell, frozen 45x22g",
+    "producers": [
+      {
+        "id": "6430026139998",
+        "name": "Mondo Fresco Oy"
+      }
+    ],
+    "keyIngredients": "WHEAT flour (GLUTEN), SOYAmilk, SOYAbeanoil, sugar, salt. May contain traces of milk, egg, almond and sesame.",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AE",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AM",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AN",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AS",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AY",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "BM",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SA",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "6436501006434",
+    "name": "Salliselta  Soya chrushed light 250g",
+    "producers": [
+      {
+        "id": "6436509999998",
+        "name": "Mauste-Sallinen Oy"
+      }
+    ],
+    "keyIngredients": "SOY",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AN",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AP",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AS",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AY",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "AC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AE",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AF",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AU",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AW",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "NL",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "UM",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "6436501016730",
+    "name": "Salliselta Pecan nuts 800g",
+    "producers": [
+      {
+        "id": "6436509999998",
+        "name": "Mauste-Sallinen Oy"
+      }
+    ],
+    "keyIngredients": "Pecannut",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AN",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AP",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AS",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AY",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SP",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "AC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AE",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AF",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AU",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AW",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "NL",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "UM",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "6436501018451",
+    "name": "Salliselta Pecan nuts 70gx12",
+    "producers": [
+      {
+        "id": "6436509999998",
+        "name": "Mauste-Sallinen Oy"
+      }
+    ],
+    "keyIngredients": "Pecan nuts",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AN",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AP",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AS",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AY",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SP",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "AC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AE",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AF",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AU",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AW",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "NL",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "UM",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "6415002500177",
+    "name": "Myllärin Coarse wheat flour 20 kg",
+    "producers": [
+      {
+        "id": "6415009999998",
+        "name": "Helsingin Mylly Oy"
+      }
+    ],
+    "keyIngredients": "WHEAT",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "AC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AE",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AF",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AN",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AP",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AS",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AU",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AY",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "NL",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "UM",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "6415002506827",
+    "name": "Myllärin Special Wheat flour 20 kg",
+    "producers": [
+      {
+        "id": "6415009999998",
+        "name": "Helsingin Mylly Oy"
+      }
+    ],
+    "keyIngredients": "WHEAT and flour improver (E300)",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "6416597116743",
+    "name": "Sunnuntai 4kg semi-coarse wheat flour",
+    "producers": [
+      {
+        "id": "6411209999998",
+        "name": "RavintoRaisio Oy"
+      }
+    ],
+    "keyIngredients": "WHEAT, flour treatment agent (ascorbic acid)",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "4006034120536",
+    "name": "Wernsing our best Potato salad 5kg",
+    "producers": [
+      {
+        "id": "6430037249990",
+        "name": "Hedvi Markkinointi Oy"
+      }
+    ],
+    "keyIngredients": "Potato 56%, Rapeseed Oil, Water, Cucumber, Onion, Sugar, EGG YOLK, CREAM, Spirit Vinegar, Herbs, Spices, Salt, MUSTARD SEEDS, Corn Starch, WHEAT STARCH, Seasoning Sauce, Dextrose, Thickener (Guar Gum), Preservatives (Potassium Sorbate, Sodium Benzoate), Flavourings",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AE",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "BM",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "AC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AF",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AN",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AP",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AS",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AU",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AY",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "NL",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "UM",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "6405096000370",
+    "name": "Mr. Panini Meat Lovers panini 235g",
+    "producers": [
+      {
+        "id": "6405620999996",
+        "name": "Snellmanin Kokkikartano Oy"
+      }
+    ],
+    "keyIngredients": "Panini bread (Suomi) 46 %: VEHNÄJAUHO, water, sunflower seed, linseed, iodized salt, WHEAT BRAN, rapeseed oil, yeast, sugar. Grilled kebab 25 %: beef (Finland), salt, rapeseed oil, spices (white and black pepper, paprika, chili, onion, garlic), spice extracts (for example lovage, chili, paprika), glucose, sugar, stabilizers (E450, E451), antioxidant (E301), aroma. Panini paprikamayonnaise: rapeseed oil, paprika paste (paprika, salt, vinegar, sugar), water, EGG YOLK, tomato paste, sugar, vinegar, salt, spices (for example black pepper, smoked paprika, koriander, chili, basil, oregano, fennel seed, thickeners (xanthan gum, guar gum). Pepperoni 8 %: Pork (Finland), lard, salt, spices (cayenne, paprika, fennel, garlic, allspice, nutmeg), glucose, antioxidant (E300), aromas, preservative (E250).CHEESE (Finland). DON'T FREEZE, product contains smelted component.",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AE",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "AC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AF",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AN",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AP",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AS",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AU",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AY",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "NL",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "UM",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "6405096008031",
+    "name": "Mr. Panini Kebab-Garlic panini 235g",
+    "producers": [
+      {
+        "id": "6405620999996",
+        "name": "Snellmanin Kokkikartano Oy"
+      }
+    ],
+    "keyIngredients": "Panini bread (Finland) 49%: WHEAT FLOUR, water, sunflower seeds, linseed, iodized salt, WHEAT BRAN, rapeseed oil, yeast. Mr. Panini cucumber-garlic mayonnaise: rapeseed oil, red onion, water, pickled cucumber (cucumber, water, vinegar, sugar, salt, flavorings), garlic, EGG YOLK, tomato puree, sugar, sweet chili sauce (water, sugar, chili, garlic, salt), vinegar, salt, chili powder, thickeners (guar gum, xanthan gum), preservative (E202)). Kebab meat 21%: beef (Finland), water, salt, spices (white and black pepper, paprika, chili, onion, garlic, cayenne pepper, tarragon), flavorings (including lovage), glucose, sugar, stabilizer (E450). CHEESE (Finland).",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AE",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "AC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AF",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AN",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AP",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AS",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AU",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AY",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "NL",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "UM",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "4740086019928",
+    "name": "Eesti Pagar Orange-chocolate cake 3 x 950g (10x95g)",
+    "producers": [
+      {
+        "id": "4740086999992",
+        "name": "Eesti Pagar AS"
+      }
+    ],
+    "keyIngredients": "orange cream 16% [glucose syrup, sugar, condensed MILK, water, palm oil, modified starch, orange concentrate, acidity regulator: citric acid, food colourings: beta-carotene, paprika extract; preservative: potassium sorbate, emulsifier: E471, flavourings (orange)], water, chocolate cake powder (sugar, WHEAT flour, glucose syrup, cocoa powder, WHEY powder, chocolate 2% (cocoa mass, sugar, cocoa powder, emulsifier: SOY lecithin), raising agents: E450, E500, E575; non-hydrogenated palm fat, WHEAT GLUTEN, thickeners: E412, E415, E466; emulsifiers: E475, E471; flavourings); whipping cream (CREAM, stabilizer: carrageenan), whipped cream (BUTTERMILK, vegetable oils (palm, coconut, palm kernel, rapeseed), fully hydrogenated palm oil, modified starch, emulsifiers: E472b, E435, E433; stabilizer: E407), chocolate paste (sugar, rapeseed oil, palm fat, cocoa powder, glucose syrup, emulsifier: E472, sunflower lecithin, MILK protein, flavourings (vanilla)], whole EGG liquid, orange cake powder (WHEAT flour, sugar, glucose syrup, WHEAT GLUTEN, orange powder 3%, fully hydrogenated palm oil, modified starch, raising agents: E450, E575, E500; emulsifiers: E471, E475; salt, thickeners: E412, E415; food colourings: carotenes; acidity regulator: citric acid, MILK protein), rapeseed oil, whipped cream stabilizer (sugar, LACTOSE, dextrose, gelatine, thickener: baobab powder), vanilla cream powder (sugar, modified starch, MILK powder (WHEY, palm fat, skimmed MILK powder, BUTTER), thickener: E401, food colouring: beta-carotene, flavourings (vanilla)), sprinkle (cocoa mass, sugar, cocoa powder, MILK fat, emulsifier: SOY lecithin), brown glaze (sugar, fully hydrogenated palm kernel fat, cocoa powder, emulsifier: sunflower lecithin, flavourings (vanillin), sugar, cocoa butter, MILK powder, WHEY powder, cocoa mass, cocoa powder, palm fat, rice flour, corn starch, salt, food colourings: E174, E172; flavourings (orange, vanilla).",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AE",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AN",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AY",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "ML",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "SH",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "5900951311239",
+    "name": "24x Mars 2pack Chocolate bar 70g",
+    "producers": [
+      {
+        "id": "6420244999993",
+        "name": "Mars Finland Oy"
+      }
+    ],
+    "keyIngredients": "Sugar, glucose syrup, SKIMMED MILK POWDER, cocoa butter, cocoa mass, sunflower oil, whey permeate (MILK), palm fat, MILK FAT, low-fat cocoa powder, BARLEY MALT EXTRACT, salt, emulsifier (SOY LECITHIN), EGG WHITE POWDER. (May contain: PEANUTS, NUTS). Cocoa solids: 25% minimum. Chocolate contains  other vegetable fats in addition to cocoa butter.",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AE",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AN",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AP",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AY",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "GB",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "ML",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "6411401062100",
+    "name": "Fazer Suklaalehti chocolate biscuit 185g",
+    "producers": [
+      {
+        "id": "6411409999996",
+        "name": "Fazer Makeiset Oy"
+      }
+    ],
+    "keyIngredients": "WHEAT flour, sugar, rapeseed oil, cocoa mass, cocoa butter, MILK fat, raising agents (E450, E500), emulsifier (SOYA lecithin), WHEAT fiber, salt, flavourings (incl. citrus), cinnamon. MAY CONTAIN EGG AND OTHER CEREALS CONTAINING GLUTEN. In chocolate cocoa solids 47% minimum. ",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AE",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AY",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "GB",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "GO",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "ML",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "NR",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "AC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AF",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AN",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AP",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AS",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AU",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "GK",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "GS",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "NL",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "SA",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "SC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "SH",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "SM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "SP",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "SR",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "ST",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "SW",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "UM",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "5201704054787",
+    "name": "Kolios Lactose free Feta 200g",
+    "producers": [
+      {
+        "id": "6430309999998",
+        "name": "Valkoinen Risti Oy - Vita Korset Ab"
+      }
+    ],
+    "keyIngredients": "Pasteurized SHEEP and GOAT MILK, salt, acidification culture, rennet",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "6412004034846",
+    "name": "4 x Saarioinen Lactose free rice porridge 270g",
+    "producers": [
+      {
+        "id": "6412009999997",
+        "name": "Saarioinen Oy"
+      }
+    ],
+    "keyIngredients": "Lactose-free MILK drink, rice, water, lactose-free whipping CREAM, iodised salt.",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "AC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AE",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AF",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AN",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AP",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AS",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AU",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AW",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AY",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "GB",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "GK",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "GO",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "GS",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "ML",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "NL",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "NR",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "SC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "UM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "UW",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "5201704054770",
+    "name": "Kolios Fetapiece 900g lactose free",
+    "producers": [
+      {
+        "id": "6430309999998",
+        "name": "Valkoinen Risti Oy - Vita Korset Ab"
+      }
+    ],
+    "keyIngredients": "Pasteurized SHEEP and GOAT MILK, salt, acidification culture, rennet",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "6408430859504",
+    "name": "Valio baked rye-rice pastry 65 g x 60 / 3,9 kg lactose free",
+    "producers": [
+      {
+        "id": "6408439999997",
+        "name": "Valio Oy"
+      }
+    ],
+    "keyIngredients": "Water, rice 18 %, lactose-free CREAM, RYE flour 8 %, WHEAT flour, lactose-free MILK powder, salt, lactose-free BUTTER, RYE malt.",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "NR",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "6408430863266",
+    "name": "Valio baked small rice pastry with rye 30 g x 100 / 3 kg lactose free",
+    "producers": [
+      {
+        "id": "6408439999997",
+        "name": "Valio Oy"
+      }
+    ],
+    "keyIngredients": "Water, rice 18 %, lactose free CREAM, RYE flour 9 %, WHEAT flour, lactose free MILK powder, salt, lactose free BUTTER, RYE malt.",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "NR",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "6438516016248",
+    "name": "Feelia S Chicken soup 3kg",
+    "producers": [
+      {
+        "id": "6430031899993",
+        "name": "Feelia Oy"
+      }
+    ],
+    "keyIngredients": "Water, lactose-free vegetable fat mixture [fat-free MILK (Finland), water, rapeseed oil, modified corn and tapioca starch, emulsifier (E472e), flavoring, color (E160a)], potatoes, chicken meat 15% [chicken thigh meat (Finland), water, iodized salt , stabilizer (E450, E451), dextrose, maltodextrin, aroma], chicken broth [maltodextrin, salt, natural aroma, onion, ground chicken meat, antioxidant (rosemary extract)], vegetable broth [salt, maltodextrin, vegetable powder (onion, parsnip, carrot, leek ), natural aroma], sugar, tarragon, parsley.",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "3395321017347",
+    "name": "Valrhona White chocolate ball 35% 504 pcs",
+    "producers": [
+      {
+        "id": "6406609999990",
+        "name": "PNM Chipsters Oy"
+      }
+    ],
+    "keyIngredients": "Sugar, cocoa butter, whole MILK powder, emulsifier: sunflower lecithin, natural vanilla extract. May contain traces of NUTS, EGG, GLUTEN and SOY",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AE",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AN",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AW",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AY",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "GB",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SA",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SH",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SP",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "ST",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SW",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "UW",
+        "unit": "MAY_CONTAIN"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "6410500046516",
+    "name": "VAASAN PIENI PYÖREÄ Monivilja 250g Multigrain Crispbread",
+    "producers": [
+      {
+        "id": "6429921852576",
+        "name": "Lantmännen Cerealia Oy"
+      }
+    ],
+    "keyIngredients": "Wholegrain RYE flour, wholegrain OAT flour and- flakes, SESAME seeds, wholegrain WHEAT flour,wholegrain BARLEY flour, water, yeast, salt, emulsifier (E471). The product contains 100% whole grain of the grain ingredients.",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AS",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "GB",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "GO",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "NR",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "AC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AE",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AF",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AN",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AP",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AU",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AY",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "NL",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "UM",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "6430022931282",
+    "name": "SIIPIWEIKOT BLUE CHEESE DIPMIX 1KG",
+    "producers": [
+      {
+        "id": "6430022939998",
+        "name": "Hot Wings Oy / Ravintola Siipiweikot"
+      }
+    ],
+    "keyIngredients": "Maltodextrin, cheese powder (from MILK), salt, modified potato starch, sugar, aroma (blue cheese), MILK powder, flavor enhancer (sodium glutamate), onion, cream powder (from MILK), acidity regulator (citric acid), parsley.",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AM",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "7039318013153",
+    "name": "14 x Anyday Cashew Nuts 140g",
+    "producers": [
+      {
+        "id": "6410389999996",
+        "name": "Orkla Suomi Finland Oy Ab"
+      }
+    ],
+    "keyIngredients": "CASHEW NUTS 100 %. \n\nMay contain traces of PEANUTS and other NUTS.",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AN",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AP",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SA",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SC",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "SH",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SM",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SP",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SR",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "ST",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SW",
+        "unit": "MAY_CONTAIN"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "AC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AE",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AF",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AS",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AU",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AW",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AY",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "NL",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "UM",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "6405263040604",
+    "name": "Lagerblad Foods Spicy vegebite 8 g / 5,0 kg fried frozen",
+    "producers": [
+      {
+        "id": "6405263999995",
+        "name": "Lagerblad Foods Oy"
+      }
+    ],
+    "keyIngredients": "Broad beans, chickpeas, cornstarch, rapeseed oil, rice flour, onion, jalapeno, sugar, coriander, salt, spices (cumin, oregano, black pepper, cumin, paprika, nutmeg, cinnamon), garlic, lime leaves, chili, ginger puree. Vegetable content 89%.",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "BM",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": [
+      {
+        "id": "AC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AE",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AF",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AM",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AN",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AP",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AS",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AU",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AW",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "AY",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "BC",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "ML",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "NL",
+        "unit": "FREE_FROM"
+      },
+      {
+        "id": "UM",
+        "unit": "FREE_FROM"
+      }
+    ]
+  },
+  {
+    "gtin": "5705001780610",
+    "name": "Rynkeby Lingonberry juice drink concentrate 1+7 10L",
+    "producers": [
+      {
+        "id": "6409709999990",
+        "name": "Eckes-Granini Finland Oy Ab"
+      }
+    ],
+    "keyIngredients": "Sugar, water, apple and lingonberry (11 %) juice from concentrate, acidity regulator (citric acid), colour (anthocyanin and caramel colour), natural flavor, antioxidant (ascorbic acid).",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "X99",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "4009837852291",
+    "name": "Europicnic Pretzel 100g 60x100g frozen product",
+    "producers": [
+      {
+        "id": "6418229999991",
+        "name": "Europicnic Oy"
+      }
+    ],
+    "keyIngredients": "WHEAT FLOUR, water, salt, yeast, rapeseed oil, dried WHEAT YEAST (WHEAT FLOUR, sourdough cultures), BARLEY MALT EXTRACT, sugar, emulsifier (E472e), WHEAT GLUTEN, WHEAT MALT FLOUR, acidity regulators (E170, E524), flour treatment agent (E300).",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AE",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AM",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AS",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "AY",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "GB",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "6416661016184",
+    "name": "Rollfoods High-fibre ciabatta sliced 80 g (6 pcs x 7 bags) 3.36 kg frozen",
+    "producers": [
+      {
+        "id": "6416661999999",
+        "name": "Rollfoods Oy Ab"
+      }
+    ],
+    "keyIngredients": "WHEAT flour (Finland), water, RYE (-flaked, -groats) 8.2%, OAT (-flaked, -fiber) 5.6%, margarine (vegetable oil (rapeseed), water, salt, flavoring), sugar, yeast, salt, WHEAT gluten, RYE sourdough (RYE, water, sourdough culture) and flour treatment agent E300. May contain small amounts of EGG and MILK.",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AE",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AM",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AW",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "GO",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "NR",
+        "unit": "CONTAINS"
+      },
+      {
+        "id": "UW",
+        "unit": "CONTAINS"
+      }
+    ],
+    "nonAllergens": []
+  },
+  {
+    "gtin": "6430027415084",
+    "name": "GelatoLAB-Espoo 5L ice cream Coconut vegan",
+    "producers": [
+      {
+        "id": "6429920899459",
+        "name": "Sweet & Life Oy"
+      }
+    ],
+    "keyIngredients": "Coconut milk 37% (coconut extract 75%, water, emulsifier (mono- and diglycerides of fatty acids), stabilizer (sodium carboxymethylcellulose)), water, sugar, dextrose, glucose syrup, coconut flakes 1%, alcohol, emulsifier (mono- and diglycerides of fatty acids), thickener ( tara gum, sodium alginate, carboxymethyl cellulose, guar gum), maltodextrin, sorbitol syrup, natural flavor",
+    "vatCode": "MEDIUM",
+    "allergens": [
+      {
+        "id": "AN",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "AP",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SA",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SC",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SH",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "ST",
+        "unit": "MAY_CONTAIN"
+      },
+      {
+        "id": "SW",
+        "unit": "MAY_CONTAIN"
+      }
+    ],
+    "nonAllergens": []
+  }
+]

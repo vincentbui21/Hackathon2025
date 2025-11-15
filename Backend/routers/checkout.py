@@ -1,29 +1,76 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import List
+from app.database import get_connection
+import json
+from typing import List
+
+
 
 router = APIRouter(prefix="/checkout", tags=["Checkout"])
 
-# Request model: list of product IDs
-class PredictRequest(BaseModel):
+class ProductIdsRequest(BaseModel):
     product_ids: List[int]
 
-# Response model: prediction per product
-class Prediction(BaseModel):
+@router.post("/predict")
+async def fetch_prediction_scores(request: ProductIdsRequest):
+    conn = get_connection()
+    if conn is None:
+        return {"error": "Cannot connect to database"}
+
+    cursor = conn.cursor(dictionary=True)
+
+    ids_tuple = tuple(request.product_ids)
+    if len(ids_tuple) == 1:
+        ids_tuple = (ids_tuple[0],)
+
+    query = f"""
+        SELECT ProductID, Product_name, Prediction_score
+        FROM Product
+        WHERE ProductID IN {ids_tuple}
+    """
+    cursor.execute(query)
+    results = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return {"predictions": results}
+
+
+class TrackingItem(BaseModel):
     product_id: int
-    score: float  # AI prediction score (0-1, for example)
+    ordered_quantity: int
+    real_quantity: int = 0  # initially 0 until verified
 
-class PredictResponse(BaseModel):
-    predictions: List[Prediction]
+class OrderRequest(BaseModel):
+    total: float
+    status: str = "pending"
+    tracking: List[TrackingItem]
 
-@router.post("/predict", response_model=PredictResponse)
-async def predict_order_issues(request: PredictRequest):
-    predictions = []
-    for pid in request.product_ids:
-        # Here you would call AI Agent 1 to get the actual prediction
-        score = 0.5  # Placeholder, replace with AI result
-        predictions.append({"product_id": pid, "score": score})
+@router.post("/order")
+async def create_order(order: OrderRequest):
+    conn = get_connection()
+    if conn is None:
+        return {"error": "Cannot connect to database"}
 
-    return {"predictions": predictions}
+    cursor = conn.cursor()
 
+    # Convert tracking list to JSON string for DB
+    tracking_json = json.dumps([item.dict() for item in order.tracking])
 
+    query = """
+        INSERT INTO `Order` (Total, Status, Tracking, Substitution)
+        VALUES (%s, %s, %s, %s)
+    """
+    values = (order.total, order.status, tracking_json, json.dumps([]))  # empty substitution
+
+    cursor.execute(query, values)
+    conn.commit()
+
+    order_id = cursor.lastrowid
+
+    cursor.close()
+    conn.close()
+
+    return {"message": "Order created", "order_id": order_id}
