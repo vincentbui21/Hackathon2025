@@ -189,7 +189,7 @@ class ValioCustomerServiceLLM:
         context: str,
         original_product: str,
         batch: List[Dict[str, Any]],
-        prediction_value: Optional[float],
+        prediction_score: Optional[float],
         customer_message: Optional[str],
         is_more_batch: bool,
     ) -> str:
@@ -204,10 +204,10 @@ Write ONE short, friendly sentence introducing these additional alternatives:
 {names}.
 """
         else:
-            if prediction_value is not None:
+            if prediction_score is not None:
                 task_text = f"""
 The requested product "{original_product}" may not be reliably deliverable
-(prediction: {prediction_value}).
+(prediction: {prediction_score}).
 
 Write ONE short, friendly sentence explaining this gently and recommending these alternatives:
 {names}.
@@ -250,7 +250,7 @@ Return only the final message text.
     def suggest_substitutions(
         self,
         original_product: Optional[str] = None,
-        prediction_value: Optional[float] = None,
+        prediction_score: Optional[float] = None,
         alternatives: Optional[List[Dict[str, Any]]] = None,
         customer_message: Optional[str] = None,
     ) -> str:
@@ -259,7 +259,7 @@ Return only the final message text.
 
         - First call (with alternatives):
             * Filter strictly by type (banana → only bananas)
-            * Sort by prediction_score & availability if present
+            * Sort by prediction_score & quantity if present
             * Store state
             * Return first batch + nice answer
 
@@ -306,11 +306,11 @@ Return only the final message text.
                 }
                 return json.dumps(result, ensure_ascii=False, indent=2)
 
-            # 2) Sort by prediction_score (if present), then maybe availability
+            # 2) Sort by prediction_score (if present), then maybe quantity
             def sort_key(a: Dict[str, Any]):
                 score = a.get("prediction_score", 0.0)
-                availability = a.get("availability", 0)
-                return (-score, -availability)
+                quantity = a.get("quantity", 0)
+                return (-score, -quantity)
 
             alternatives_sorted = sorted(strict_alts, key=sort_key)
 
@@ -324,7 +324,7 @@ Return only the final message text.
                 context=context,
                 original_product=original_product,
                 batch=batch,
-                prediction_value=prediction_value,
+                prediction_score=prediction_score,
                 customer_message=customer_message,
                 is_more_batch=False,
             )
@@ -384,7 +384,7 @@ Return only the final message text.
                     context=context,
                     original_product=original_product_saved,
                     batch=next_batch,
-                    prediction_value=None,
+                    prediction_score=None,
                     customer_message=customer_message,
                     is_more_batch=True,
                 )
@@ -469,7 +469,7 @@ if __name__ == "__main__":
             "non_allergens": [],
             "ingredients": ["banana"],
             "prediction_score": 0.9,
-            "availability": 100,
+            "quantity": 100,
         },
         {
             "product_name": "Banana C",
@@ -477,7 +477,7 @@ if __name__ == "__main__":
             "non_allergens": [],
             "ingredients": ["banana"],
             "prediction_score": 0.8,
-            "availability": 80,
+            "quantity": 80,
         },
         {
             "product_name": "Banana D",
@@ -485,7 +485,7 @@ if __name__ == "__main__":
             "non_allergens": [],
             "ingredients": ["banana"],
             "prediction_score": 0.85,
-            "availability": 60,
+            "quantity": 60,
         },
         {
             "product_name": "Banana E",
@@ -493,7 +493,7 @@ if __name__ == "__main__":
             "non_allergens": [],
             "ingredients": ["banana"],
             "prediction_score": 0.7,
-            "availability": 50,
+            "quantity": 50,
         },
         {
             "product_name": "Apple A",
@@ -501,7 +501,7 @@ if __name__ == "__main__":
             "non_allergens": [],
             "ingredients": ["apple"],
             "prediction_score": 0.95,
-            "availability": 200,
+            "quantity": 200,
         },
     ]
 
@@ -510,7 +510,7 @@ if __name__ == "__main__":
     print(
         model.suggest_substitutions(
             original_product=original_product,
-            prediction_value=0.7,
+            prediction_score=0.7,
             alternatives=initial_alternatives,
             customer_message=None,
         )
