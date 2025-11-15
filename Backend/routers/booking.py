@@ -2,6 +2,8 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from typing import List
 from app.database import get_connection
+import json
+
 
 
 router = APIRouter(prefix="/booking", tags=["Booking"])
@@ -41,3 +43,27 @@ async def get_products():
 
     return {"products": products}
 
+
+@router.get("/orders")
+async def get_all_orders():
+    """
+    Fetch all orders from the database.
+    Returns a list of orders with their tracking and substitution info.
+    """
+    conn = get_connection()
+    if conn is None:
+        return {"error": "Cannot connect to database"}
+
+    cursor = conn.cursor(dictionary=True)
+    query = "SELECT OrderID, Total, Status, Tracking, Substitution FROM `Order`"
+    cursor.execute(query)
+    orders = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    # Convert JSON strings from DB to actual Python lists
+    for order in orders:
+        order["Tracking"] = json.loads(order["Tracking"])
+        order["Substitution"] = json.loads(order["Substitution"])
+
+    return {"orders": orders}
