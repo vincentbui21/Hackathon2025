@@ -113,7 +113,7 @@ class BookingsService {
       const queryLower = query.toLowerCase();
       return MOCK_PRODUCTS.filter((p) =>
         p.Product_name.toLowerCase().includes(queryLower) ||
-        p.ProductID.toLowerCase().includes(queryLower)
+        p.ProductID.toString().toLowerCase().includes(queryLower)
       );
     }
 
