@@ -2,6 +2,7 @@ import os
 import json
 import difflib
 import time
+from typing import List, Dict, Any, Optional
 from langchain_openai import ChatOpenAI
 
 CONTEXT_FILE = "customer_context.txt"
@@ -24,10 +25,11 @@ REQUEST_MORE_KEYWORDS = [
     "show more",
     "more choices",
     "another option",
+    "another one",
 ]
 
 
-def user_wants_more(message: str) -> bool:
+def user_wants_more(message: Optional[str]) -> bool:
     """Detect if customer explicitly wants more alternatives."""
     if not message:
         return False
@@ -51,6 +53,25 @@ def user_wants_more(message: str) -> bool:
 # ⚙️ LLM CLASS
 # ---------------------------------------------------
 class ValioCustomerServiceLLM:
+    """
+    Core LLM wrapper for Valio substitutions.
+
+    ✅ Super strict:
+       - Python decides which alternatives are valid
+       - LLM **never** invents products
+       - LLM **only** generates the human-friendly `Answers` text
+
+    Expected alternative structure from DB:
+    {
+        "product_name": "Banana B",
+        "allergens": ["AU", "IU"],
+        "non_allergens": ["BK", "AT"],
+        "ingredients": ["banana"],
+        "prediction_score": 0.91,
+        ...
+    }
+    """
+
     def __init__(self):
         self.llm = ChatOpenAI(
             api_key=os.getenv("FEATHERLESS_API_KEY"),
@@ -75,7 +96,7 @@ class ValioCustomerServiceLLM:
     # ---------------------------------------------------
     # 💾 ALTERNATIVE MEMORY (for follow-up batches)
     # ---------------------------------------------------
-    def _save_state(self, original_product: str, alternatives: list) -> None:
+    def _save_state(self, original_product: str, alternatives: List[Dict[str, Any]]) -> None:
         data = {
             "original_product": original_product,
             "sorted_alternatives": alternatives,
@@ -84,7 +105,7 @@ class ValioCustomerServiceLLM:
         with open(ALT_MEMORY_FILE, "w") as f:
             json.dump(data, f, indent=2)
 
-    def _load_state(self):
+    def _load_state(self) -> Optional[Dict[str, Any]]:
         if not os.path.exists(ALT_MEMORY_FILE):
             return None
         with open(ALT_MEMORY_FILE, "r") as f:
@@ -98,6 +119,13 @@ class ValioCustomerServiceLLM:
         with open(ALT_MEMORY_FILE, "w") as f:
             json.dump(data, f, indent=2)
 
+    def reset_conversation(self) -> None:
+        """Call this when the customer presses 'end conversation'."""
+        if os.path.exists(CONTEXT_FILE):
+            os.remove(CONTEXT_FILE)
+        if os.path.exists(ALT_MEMORY_FILE):
+            os.remove(ALT_MEMORY_FILE)
+
     # ---------------------------------------------------
     def _strip_think(self, text: str) -> str:
         if "<think>" in text and "</think>" in text:
@@ -105,67 +133,53 @@ class ValioCustomerServiceLLM:
         return text.strip()
 
     # ---------------------------------------------------
-    # 🧪 RELEVANCE FILTERING
+    # 🧪 SUPER-STRICT FILTERING
     # ---------------------------------------------------
-    def _filter_relevant(self, original_product: str, alternatives: list) -> list:
+    def _main_token_from_name(self, name: str) -> str:
         """
-        Use LLM to classify each alternative as relevant / not_relevant
-        relative to the original product. Returns only relevant ones.
+        Super simple heuristic: first word of product name.
+        e.g. "Banana A" -> "banana"
+        """
+        if not name:
+            return ""
+        return name.strip().split()[0].lower()
+
+    def _filter_strict(
+        self,
+        original_product: str,
+        alternatives: List[Dict[str, Any]],
+    ) -> List[Dict[str, Any]]:
+        """
+        Super strict filtering:
+        - Only keep alternatives that look like the same product type.
+        - Based on name token & ingredients overlap.
+
+        This guarantees:
+        - If original is Banana A → you only get Banana B/C/D/E, never Apple or Orange.
         """
 
-        if not original_product:
-            # If somehow missing, skip filtering
-            return alternatives
+        main_token = self._main_token_from_name(original_product)
 
-        alt_names = "\n".join([f"- {a['name']}" for a in alternatives])
+        strict_alts: List[Dict[str, Any]] = []
+        for alt in alternatives:
+            alt_name = alt.get("product_name", "")
+            alt_token = self._main_token_from_name(alt_name)
 
-        prompt = f"""
-You are a product-substitution classifier.
+            ingredients = alt.get("ingredients") or []
+            ingredients_lower = [ing.lower() for ing in ingredients]
 
-The customer originally requested:
-"{original_product}"
+            # Condition 1: same main word (Banana A -> Banana B)
+            same_token = (alt_token == main_token) if main_token else False
 
-Below is a list of possible alternatives:
-{alt_names}
+            # Condition 2: ingredient-based: original token appears as ingredient
+            token_in_ingredients = main_token in ingredients_lower if main_token else False
 
-TASK:
-For EACH listed product, decide if it is a suitable substitute for the original product.
+            if same_token or token_in_ingredients:
+                strict_alts.append(alt)
 
-RULES:
-- "relevant" → same general product category or usage (e.g. milk ↔ oat milk / lactose-free milk / yogurt drink).
-- "not_relevant" → different category (e.g. milk ↔ banana, apple, bread).
-- Focus on realistic grocery substitution, not just allergens.
-
-OUTPUT:
-Return ONLY valid JSON in this format:
-
-{{
-  "classification": [
-    {{"name": "string", "label": "relevant" | "not_relevant"}}
-  ]
-}}
-"""
-
-        raw = self.llm.invoke([("human", prompt)])
-        clean = self._strip_think(raw.content)
-
-        try:
-            parsed = json.loads(clean)
-            classification = parsed.get("classification", [])
-        except Exception:
-            # If classification fails, be safe and keep all alternatives
-            return alternatives
-
-        relevant_names = {
-            c["name"]
-            for c in classification
-            if c.get("label") == "relevant"
-        }
-
-        filtered = [a for a in alternatives if a["name"] in relevant_names]
-
-        # If everything gets filtered out, fall back to original list
-        return filtered if filtered else alternatives
+        # If everything gets filtered out, we keep all → but you said "super strict",
+        # so here we **do not** bring back apples/oranges. We just accept fewer options.
+        return strict_alts
 
     # ---------------------------------------------------
     # 💬 MESSAGE GENERATION FOR BATCHES
@@ -174,12 +188,12 @@ Return ONLY valid JSON in this format:
         self,
         context: str,
         original_product: str,
-        batch: list,
-        prediction_value: float | None,
-        customer_message: str | None,
+        batch: List[Dict[str, Any]],
+        prediction_value: Optional[float],
+        customer_message: Optional[str],
         is_more_batch: bool,
     ) -> str:
-        names = ", ".join(item["name"] for item in batch)
+        names = ", ".join(item["product_name"] for item in batch)
 
         if is_more_batch:
             task_text = f"""
@@ -190,9 +204,17 @@ Write ONE short, friendly sentence introducing these additional alternatives:
 {names}.
 """
         else:
-            task_text = f"""
+            if prediction_value is not None:
+                task_text = f"""
 The requested product "{original_product}" may not be reliably deliverable
 (prediction: {prediction_value}).
+
+Write ONE short, friendly sentence explaining this gently and recommending these alternatives:
+{names}.
+"""
+            else:
+                task_text = f"""
+The requested product "{original_product}" may not be deliverable.
 
 Write ONE short, friendly sentence explaining this gently and recommending these alternatives:
 {names}.
@@ -227,16 +249,38 @@ Return only the final message text.
     # ---------------------------------------------------
     def suggest_substitutions(
         self,
-        original_product: str = None,
-        prediction_value: float = None,
-        alternatives: list | None = None,
-        customer_message: str | None = None,
+        original_product: Optional[str] = None,
+        prediction_value: Optional[float] = None,
+        alternatives: Optional[List[Dict[str, Any]]] = None,
+        customer_message: Optional[str] = None,
     ) -> str:
         """
         Main function:
-        - If alternatives are provided → classify relevance, sort, store, return first batch.
-        - If no alternatives but state exists → handle follow-ups or normal messages.
-        - If no state → normal customer-service reply.
+
+        - First call (with alternatives):
+            * Filter strictly by type (banana → only bananas)
+            * Sort by prediction_score & availability if present
+            * Store state
+            * Return first batch + nice answer
+
+        - Follow-up call (no alternatives, just customer_message):
+            * If user asks for more → return next batch
+            * Else → normal small chat reply with no options
+
+        Return JSON (string) in this format:
+
+        {
+            "Answers": "We are really sorry that .....",
+            "Options": [
+                {
+                    "product_name": "chocolate cake",
+                    "allergens": [...],
+                    "non_allergens": [...],
+                    "ingredients": [...]
+                },
+                ...
+            ]
+        }
         """
 
         context = self._load_context()
@@ -245,29 +289,35 @@ Return only the final message text.
         # CASE 1 — FIRST CALL (alternatives provided)
         # ---------------------------------------------------
         if alternatives:
-            # Step 1: filter out irrelevant alternatives (e.g., bananas for milk)
-            relevant_alts = self._filter_relevant(original_product, alternatives)
+            if not original_product:
+                original_product = "this product"
 
-            if not relevant_alts:
+            # 1) Super-strict filter
+            strict_alts = self._filter_strict(original_product, alternatives)
+
+            if not strict_alts:
+                # No good same-type substitutes found
                 result = {
-                    "final_message": (
-                        "Thanks for your interest! Right now we don't have good substitute products "
-                        "for that specific item, but I’m happy to help with anything else."
+                    "Answers": (
+                        f"We are really sorry, but we couldn't find any close substitutes for {original_product}."
+                        " I'm happy to help with anything else you might need."
                     ),
-                    "chosen_alternatives": [],
+                    "Options": [],
                 }
                 return json.dumps(result, ensure_ascii=False, indent=2)
 
-            # Step 2: sort relevant alternatives by predicted_success, then availability
-            alternatives_sorted = sorted(
-                relevant_alts,
-                key=lambda x: (-x["predicted_success"], -x["availability"])
-            )
+            # 2) Sort by prediction_score (if present), then maybe availability
+            def sort_key(a: Dict[str, Any]):
+                score = a.get("prediction_score", 0.0)
+                availability = a.get("availability", 0)
+                return (-score, -availability)
 
-            # Save state for later follow-ups
+            alternatives_sorted = sorted(strict_alts, key=sort_key)
+
+            # 3) Save state for follow-ups
             self._save_state(original_product, alternatives_sorted)
 
-            # First batch
+            # 4) First batch
             batch = alternatives_sorted[:BATCH_SIZE]
 
             final_message = self._generate_message_for_batch(
@@ -286,9 +336,20 @@ Return only the final message text.
             self._append_context(f"Customer said: {customer_message}")
             self._append_context(f"Model replied: {final_message}")
 
+            # Shape options to required schema (drop internal fields if you want)
+            options_payload = [
+                {
+                    "product_name": item.get("product_name"),
+                    "allergens": item.get("allergens", []),
+                    "non_allergens": item.get("non_allergens", []),
+                    "ingredients": item.get("ingredients", []),
+                }
+                for item in batch
+            ]
+
             result = {
-                "final_message": final_message,
-                "chosen_alternatives": batch,
+                "Answers": final_message,
+                "Options": options_payload,
             }
             return json.dumps(result, ensure_ascii=False, indent=2)
 
@@ -308,11 +369,11 @@ Return only the final message text.
 
                 if not next_batch:
                     result = {
-                        "final_message": (
-                            "Thanks for checking! There aren’t any more alternatives left to show, "
+                        "Answers": (
+                            "Thanks for checking! There aren’t any more close alternatives to show right now, "
                             "but I’m happy to help with anything else."
                         ),
-                        "chosen_alternatives": [],
+                        "Options": [],
                     }
                     return json.dumps(result, ensure_ascii=False, indent=2)
 
@@ -331,26 +392,36 @@ Return only the final message text.
                 self._append_context(f"Customer said: {customer_message}")
                 self._append_context(f"Model replied: {final_message}")
 
+                options_payload = [
+                    {
+                        "product_name": item.get("product_name"),
+                        "allergens": item.get("allergens", []),
+                        "non_allergens": item.get("non_allergens", []),
+                        "ingredients": item.get("ingredients", []),
+                    }
+                    for item in next_batch
+                ]
+
                 result = {
-                    "final_message": final_message,
-                    "chosen_alternatives": next_batch,
+                    "Answers": final_message,
+                    "Options": options_payload,
                 }
                 return json.dumps(result, ensure_ascii=False, indent=2)
 
-            # Not asking for more → normal response, no alternatives
+            # Not asking for more → normal response, no options
             prompt = f"""
 You are Valio's friendly customer service assistant.
 
 A customer wrote: "{customer_message}"
 
 Reply briefly and kindly.
-Do NOT mention alternatives unless they ask for more.
+Do NOT mention product options or substitutions.
 
 Return ONLY JSON:
 
 {{
-  "final_message": "string",
-  "chosen_alternatives": []
+  "Answers": "string",
+  "Options": []
 }}
 """
             raw = self.llm.invoke([("human", prompt)])
@@ -374,8 +445,8 @@ Reply briefly, kindly, and professionally.
 Return ONLY JSON:
 
 {{
-  "final_message": "string",
-  "chosen_alternatives": []
+  "Answers": "string",
+  "Options": []
 }}
 """
         raw = self.llm.invoke([("human", prompt)])
@@ -389,20 +460,70 @@ Return ONLY JSON:
 if __name__ == "__main__":
     model = ValioCustomerServiceLLM()
 
-    original_product = "Regular Milk 1L"
+    original_product = "Banana A"
 
-    alternatives = [
-        {"name": "Oat Drink 1L", "price": 12, "predicted_success": 0.91, "availability": 100},
-        {"name": "Lactose-Free Milk 1.5L", "price": 11, "predicted_success": 0.76, "availability": 870},
-        {"name": "Skimmed Milk 1L", "price": 12, "predicted_success": 0.84, "availability": 78},
-        {"name": "Whole Milk 1L", "price": 10, "predicted_success": 0.93, "availability": 99},
-        {"name": "Banana 1pcs", "price": 1, "predicted_success": 0.9, "availability": 500},  # should be filtered out
+    initial_alternatives = [
+        {
+            "product_name": "Banana B",
+            "allergens": [],
+            "non_allergens": [],
+            "ingredients": ["banana"],
+            "prediction_score": 0.9,
+            "availability": 100,
+        },
+        {
+            "product_name": "Banana C",
+            "allergens": [],
+            "non_allergens": [],
+            "ingredients": ["banana"],
+            "prediction_score": 0.8,
+            "availability": 80,
+        },
+        {
+            "product_name": "Banana D",
+            "allergens": [],
+            "non_allergens": [],
+            "ingredients": ["banana"],
+            "prediction_score": 0.85,
+            "availability": 60,
+        },
+        {
+            "product_name": "Banana E",
+            "allergens": [],
+            "non_allergens": [],
+            "ingredients": ["banana"],
+            "prediction_score": 0.7,
+            "availability": 50,
+        },
+        {
+            "product_name": "Apple A",
+            "allergens": [],
+            "non_allergens": [],
+            "ingredients": ["apple"],
+            "prediction_score": 0.95,
+            "availability": 200,
+        },
     ]
 
-    # First call: get initial alternatives
+    print("=== First turn (system suggests alternatives) ===")
     start_time = time.time()
-    print(model.suggest_substitutions(
-        customer_message="bye"
-    ))
+    print(
+        model.suggest_substitutions(
+            original_product=original_product,
+            prediction_value=0.7,
+            alternatives=initial_alternatives,
+            customer_message=None,
+        )
+    )
     end_time = time.time()
     print(f"First call took {end_time - start_time:.2f} seconds")
+
+    print("\n=== Second turn (user asks for more) ===")
+    start_time = time.time()
+    print(
+        model.suggest_substitutions(
+            customer_message="Do you have any other alternatives?"
+        )
+    )
+    end_time = time.time()
+    print(f"Second call took {end_time - start_time:.2f} seconds")
