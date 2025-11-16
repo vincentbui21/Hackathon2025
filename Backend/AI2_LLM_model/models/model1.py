@@ -388,7 +388,8 @@ class ValioCustomerServiceLLM:
             all_products: list = None, 
             amount_missing: int = None,
             customer_message: str = None,
-            conversation_delete: bool = False
+            conversation_delete: bool = False,
+            order_id: str = None
         ):
 
         # Build compressed product list
@@ -418,7 +419,7 @@ class ValioCustomerServiceLLM:
             prompt = f"""
         You are an apologetic customer service agent AND a recommendation engine.
 
-        A customer reports that {amount_missing} units of product ID {product_id}
+        A customer reports that {amount_missing} units of product ID {product_id} from their order ID {order_id}
         are missing from their delivery.
 
         Your goals:
@@ -433,8 +434,8 @@ class ValioCustomerServiceLLM:
         YOUR OUTPUT (IMPORTANT):
 
         {{
-            "Answers": "Apology + compensation + short friendly message.",
-            "Options": [best_ID_1, best_ID_2, best_ID_3]
+            "Answers": "Apology with order ID mentioned + compensation + short friendly message.",
+            "Options": [best_product_ID_1, best_product_ID_2, best_product_ID_3]
         }}
         """
 
@@ -495,7 +496,7 @@ class ValioCustomerServiceLLM:
             json={
                 "model": MODEL,
                 "messages": [{"role": "user", "content": prompt}],
-                "temperature": 0.2,
+                "temperature": 0.0,
                 "max_tokens": 300
             }
         )

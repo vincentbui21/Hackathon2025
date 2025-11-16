@@ -3,7 +3,11 @@ from pydantic import BaseModel
 from app.database import get_connection
 
 # Import the recommendation function
-from AI2_LLM_model.models.main import get_product_recommendation
+from AI2_LLM_model.models.main import (
+    get_product_recommendation,
+    mention_missing_products,
+    talk_to_customer_service
+)
 
 router = APIRouter(prefix="/service", tags=["Service Bot"])
 
@@ -11,6 +15,14 @@ router = APIRouter(prefix="/service", tags=["Service Bot"])
 class ProductRequest(BaseModel):
     product_id: int
 
+class MissingItemsRequest(BaseModel):
+    product_id: int
+    amount_missing: int
+    order_id: str
+
+class CustomerMessageRequest(BaseModel):
+    customer_message: str
+    reset: bool = False
 
 @router.post("/alternative")
 def get_product_and_alternatives(request: ProductRequest):
@@ -61,3 +73,24 @@ def get_product_and_alternatives(request: ProductRequest):
         "product": product,
         "alternatives": alternatives
     }
+
+@router.post("/missing")
+def handle_missing_product(request: MissingItemsRequest):
+
+    response = mention_missing_products(
+        product_id=request.product_id,
+        amount_missing=request.amount_missing,
+        order_id=request.order_id
+    )
+
+    return response
+
+@router.post("/talk")
+def talk_to_service_bot(request: CustomerMessageRequest):
+
+    response = talk_to_customer_service(
+        customer_message=request.customer_message,
+        conversation_delete=request.reset
+    )
+
+    return response
