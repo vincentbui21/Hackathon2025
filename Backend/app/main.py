@@ -7,7 +7,7 @@ app = FastAPI(title="Snack Overflow API")
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Frontend URL
+    allow_origins=["http://35.228.227.23:5173"],  # Frontend URL
     allow_credentials=True,
     allow_methods=["*"],  # Allows all methods (GET, POST, etc.)
     allow_headers=["*"],  # Allows all headers
