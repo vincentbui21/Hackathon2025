@@ -2,7 +2,7 @@ import os
 import json
 import difflib
 from typing import List, Dict, Any, Optional
-from langchain_openai import ChatOpenAI
+from langchain.chat_models import ChatOpenAI
 import mysql.connector
 from decimal import Decimal
 import requests
