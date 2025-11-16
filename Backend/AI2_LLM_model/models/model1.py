@@ -4,7 +4,14 @@ import difflib
 from typing import List, Dict, Any, Optional
 from langchain_openai import ChatOpenAI
 import mysql.connector
+from decimal import Decimal
+import requests
+import re
 
+def safe_convert(o):
+    if isinstance(o, Decimal):
+        return float(o)
+    return o
 
 
 CONTEXT_FILE = "customer_context.txt"
@@ -257,7 +264,7 @@ class ValioCustomerServiceLLM:
         self.llm = ChatOpenAI(
             api_key=os.getenv("FEATHERLESS_API_KEY"),
             base_url="https://api.featherless.ai/v1",
-            model="meta-llama/Meta-Llama-3.1-8B-Instruct",
+            model="deepseek-ai/DeepSeek-R1-0528",
             timeout=15,
         )
 
@@ -885,10 +892,101 @@ Return ONLY:
             ensure_ascii=False,
             indent=2
         )
+    
+    def recommend_with_llm(self, product_id: str = None, all_products: list = None, customer_message: str = None):
+        # Build compressed product list only if provided
+        compressed = None
+        if all_products:
+            compressed = [
+                {
+                    "id": int(p["ProductID"]),
+                    "name": p["Product_name"],
+                    "price": float(p["Price"]),
+                    "score": float(p["Prediction_score"])
+                }
+                for p in all_products
+            ]
+
+        API_KEY = os.getenv("FEATHERLESS_API_KEY")
+        if not API_KEY:
+            raise ValueError("Missing FEATHERLESS_API_KEY")
+
+        API_URL = "https://api.featherless.ai/v1/chat/completions"
+        MODEL = "meta-llama/Meta-Llama-3.1-8B-Instruct"
+
+        # ------------------------------------------------------
+        # MODE 1 — Recommendation mode (product_id is provided)
+        # ------------------------------------------------------
+        if product_id is not None:
+            prompt = f"""
+    You are an expert product recommendation engine.
+
+    Your task:
+    - Analyze all products below.
+    - Pick the BEST 3 alternatives to product ID {product_id}.
+    - Exclude the product with ID {product_id}.
+    - Use your own reasoning (name similarity, price, score, etc.).
+    - Output ONLY JSON.
+
+    Products:
+    {json.dumps(compressed)}
+
+    Your response MUST be EXACTLY:
+
+    {{
+        "Answers": "Short friendly explanation.",
+        "Options": [best_ID_1, best_ID_2, best_ID_3]
+    }}
+    """
+        # ------------------------------------------------------
+        # MODE 2 — Customer service mode (no product_id)
+        # ------------------------------------------------------
+        else:
+            prompt = f"""
+    You are a friendly and professional customer service agent.
+
+    Customer message:
+    "{customer_message}"
+
+    Respond politely, briefly, warmly.
+
+    OUTPUT RULES:
+    Return ONLY valid JSON:
+    {{
+        "Answers": "Your friendly message here",
+        "Options": []
+    }}
+    """
+
+        # Call API
+        response = requests.post(
+            API_URL,
+            headers={
+                "Authorization": f"Bearer {API_KEY}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "model": MODEL,
+                "messages": [{"role": "user", "content": prompt}],
+                "temperature": 0.2,
+                "max_tokens": 300
+            }
+        )
+
+        data = response.json()
+        content = data["choices"][0]["message"]["content"].strip()
+
+        # Extract JSON (non-greedy)
+        json_match = re.search(r"\{.*?\}", content, flags=re.DOTALL)
+        if not json_match:
+            return {"error": "No JSON detected", "raw": content}
+
+        return json.loads(json_match.group(0))
 
 # ---------------------------------------------------
 # PRE-PURCHASE TESTS
 # ---------------------------------------------------
+'''
 if __name__ == "__main__":
     model = ValioCustomerServiceLLM()
 
@@ -1026,4 +1124,4 @@ if __name__ == "__main__":
             customer_message="Thanks for your help!"
         )
     )
-
+'''
