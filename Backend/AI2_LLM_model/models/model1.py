@@ -3,6 +3,8 @@ import json
 import difflib
 from typing import List, Dict, Any, Optional
 from langchain_openai import ChatOpenAI
+import mysql.connector
+
 
 
 CONTEXT_FILE = "customer_context.txt"
@@ -44,6 +46,140 @@ END_KEYWORDS = [
     "we're done",
     "were done",
 ]
+
+def fetch_product_and_generate_alternatives(product_id: int):
+    """
+    Fetch the target product and automatically generate alternative products
+    by scanning the database for matching allergens / non-allergens.
+
+    RETURNS:
+    {
+        "original_product_name": str,
+        "missing_quantity": int or None,
+        "alternatives": [
+            {
+                "product_name": str,
+                "allergens": [...],
+                "non_allergens": [...],
+                "ingredients": [...],
+                "prediction_score": float,
+                "quantity": int
+            },
+            ...
+        ]
+    }
+    """
+
+    conn = mysql.connector.connect(
+        host=os.getenv("MYSQL_HOST"),
+        user=os.getenv("MYSQL_USER"),
+        password=os.getenv("MYSQL_PASSWORD"),
+        database=os.getenv("MYSQL_DB"),
+    )
+    cursor = conn.cursor(dictionary=True)
+
+    # ----------------------------------------------------------
+    # 1. Fetch original product
+    # ----------------------------------------------------------
+    cursor.execute("""
+        SELECT 
+            ProductID,
+            Product_name,
+            Allergens,
+            Non_allergens,
+            Quantity,
+            Prediction_score,
+            Ingredients
+        FROM Product
+        WHERE ProductID = %s
+    """, (product_id,))
+
+    row = cursor.fetchone()
+    if not row:
+        raise ValueError(f"Product ID {product_id} does not exist in DB")
+
+    original_name   = row["Product_name"]
+    original_algs   = row["Allergens"] or []
+    original_nonalg = row["Non_allergens"] or []
+    original_ing    = row["Ingredients"] or []
+
+    # Convert DB JSON/text fields -> Python lists
+    if isinstance(original_algs, str):
+        original_algs = json.loads(original_algs)
+    if isinstance(original_nonalg, str):
+        original_nonalg = json.loads(original_nonalg)
+    if isinstance(original_ing, str):
+        original_ing = json.loads(original_ing)
+
+    # ----------------------------------------------------------
+    # 2. Fetch ALL other products in DB to compare against
+    # ----------------------------------------------------------
+    cursor.execute("""
+        SELECT 
+            ProductID,
+            Product_name,
+            Allergens,
+            Non_allergens,
+            Ingredients,
+            Prediction_score,
+            Quantity
+        FROM Product
+        WHERE ProductID != %s
+    """, (product_id,))
+    
+    all_products = cursor.fetchall()
+    conn.close()
+
+    alternatives = []
+
+    # ----------------------------------------------------------
+    # 3. Strict filtering: match allergens / non-allergens
+    # ----------------------------------------------------------
+    def is_strict_match(prod):
+        # Convert fields
+        pa = prod["Allergens"] or []
+        pna = prod["Non_allergens"] or []
+        ing = prod["Ingredients"] or []
+
+        if isinstance(pa, str): pa = json.loads(pa)
+        if isinstance(pna, str): pna = json.loads(pna)
+        if isinstance(ing, str): ing = json.loads(ing)
+
+        # STRICT RULES:
+        # 1. No allergen conflicts
+        if any(a in original_algs for a in pa):
+            return False
+
+        # 2. Must share non-allergens or ingredients meaningfully
+        shared = len(set(pna) & set(original_nonalg)) + len(set(ing) & set(original_ing))
+        return shared > 0
+
+    for prod in all_products:
+        if is_strict_match(prod):
+            alternatives.append({
+                "product_name": prod["Product_name"],
+                "allergens": json.loads(prod["Allergens"]) if isinstance(prod["Allergens"], str) else prod["Allergens"],
+                "non_allergens": json.loads(prod["Non_allergens"]) if isinstance(prod["Non_allergens"], str) else prod["Non_allergens"],
+                "ingredients": json.loads(prod["Ingredients"]) if isinstance(prod["Ingredients"], str) else prod["Ingredients"],
+                "prediction_score": prod["Prediction_score"],
+                "quantity": prod["Quantity"]
+            })
+
+    # ----------------------------------------------------------
+    # 4. Sort by (prediction DESC → quantity DESC)
+    # ----------------------------------------------------------
+    alternatives = sorted(
+        alternatives,
+        key=lambda x: (-x["prediction_score"], -x["quantity"])
+    )
+
+    return {
+        "original_product_name": original_name,
+        "original_allergens": original_algs,
+        "original_non_allergens": original_nonalg,
+        "original_ingredients": original_ing,
+        "alternatives": alternatives
+    }
 
 
 def _normalize(message: Optional[str]) -> str:
@@ -859,8 +995,8 @@ if __name__ == "__main__":
         )
     )
 
-    # Second turn: user asks for more
-    print("\n=== Second turn (user asks for more) ===")
+    # Second turn: user talks generically
+    print("\n=== Second turn (user talks generically) ===")
     print(
         model.suggest_substitutions(
             customer_message="How are you"
