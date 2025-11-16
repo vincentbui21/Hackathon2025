@@ -1,5 +1,5 @@
 import time
-from model1 import ValioCustomerServiceLLM
+from .model1 import ValioCustomerServiceLLM
 import mysql.connector
 from mysql.connector import Error
 from dotenv import load_dotenv
