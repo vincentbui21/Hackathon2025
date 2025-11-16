@@ -239,8 +239,7 @@ async def validate_order(image: UploadFile = File(...), order_id: str = Form(...
         update_order_status(int(order_id), "completed")
         validation_result = "Order validated successfully! Status updated to completed."
     else:
-        # Update order status to failed
-        update_order_status(int(order_id), "failed")
+        # print("Hello World")
         validation_result = "Validation failed. Products/quantities in image do not match the order."
 
     return {
