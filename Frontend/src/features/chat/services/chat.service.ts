@@ -32,6 +32,22 @@ class ChatService {
       API_ENDPOINTS.CHAT_CLEAR
     );
   }
+
+  /**
+   * Trigger apology message for failed order with missing products
+   * @param productId - The product ID that was missing/incorrect
+   * @param amountMissing - The number of items missing
+   * @returns Promise with apology message and product alternatives
+   */
+  async triggerOrderApology(
+    productId: number,
+    amountMissing: number
+  ): Promise<ChatMessageResponse> {
+    return apiClient.post<ChatMessageResponse>(
+      API_ENDPOINTS.CHAT_ORDER_APOLOGY,
+      { product_id: productId, amount_missing: amountMissing }
+    );
+  }
 }
 
 export const chatService = new ChatService();

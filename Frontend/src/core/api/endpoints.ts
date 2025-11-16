@@ -18,4 +18,5 @@ export const API_ENDPOINTS = {
   // Chat
   CHAT_MESSAGE: '/chat/message',
   CHAT_CLEAR: '/chat/clear',
+  CHAT_ORDER_APOLOGY: '/chat/order-apology',
 } as const;

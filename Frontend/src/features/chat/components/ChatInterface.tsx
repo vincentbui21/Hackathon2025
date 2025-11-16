@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { Send, User, Bot, Loader2, Trash2, AlertCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Send, User, Bot, Loader2, Trash2, AlertCircle, ShoppingCart } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Card } from '@/shared/components/ui/card';
@@ -19,6 +20,7 @@ export function ChatInterface() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -138,15 +140,19 @@ export function ChatInterface() {
                   <p className="text-sm">{message.text}</p>
                   {message.productOptions && message.productOptions.length > 0 && (
                     <div className="mt-2 pt-2 border-t border-border">
-                      <p className="text-xs font-semibold mb-1">Product Recommendations:</p>
-                      <div className="flex flex-wrap gap-1">
+                      <p className="text-xs font-semibold mb-2">Product Recommendations:</p>
+                      <div className="flex flex-wrap gap-2">
                         {message.productOptions.map((productId) => (
-                          <span
+                          <Button
                             key={productId}
-                            className="inline-block px-2 py-1 text-xs bg-background/50 rounded"
+                            size="sm"
+                            variant="secondary"
+                            className="text-xs h-7"
+                            onClick={() => navigate(`/products/${productId}`)}
                           >
+                            <ShoppingCart className="h-3 w-3 mr-1" />
                             Product #{productId}
-                          </span>
+                          </Button>
                         ))}
                       </div>
                     </div>
