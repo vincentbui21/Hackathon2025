@@ -42,10 +42,49 @@ def get_product_recommendation(product_id = None):
     all_products_dict = get_products()
     all_products = all_products_dict["products"]
     model = ValioCustomerServiceLLM()
-    response = model.recommend_with_llm(product_id, all_products)
+    response = model.recommend_with_llm(product_id, all_products, amount_missing=None, customer_message=None, conversation_delete=False)
+    return response
+
+def talk_to_customer_service(customer_message: str = None, conversation_delete: bool = False):
+    all_products_dict = get_products()
+    all_products = all_products_dict["products"]
+    model = ValioCustomerServiceLLM()
+    response = model.recommend_with_llm(product_id=None, all_products=all_products, amount_missing=None, customer_message=customer_message, conversation_delete=False)
+    return response
+
+def mention_missing_products(product_id = None, amount_missing: int = None):
+    all_products_dict = get_products()
+    all_products = all_products_dict["products"]
+    model = ValioCustomerServiceLLM()
+    response = model.recommend_with_llm(product_id=product_id, all_products=all_products, amount_missing=amount_missing, customer_message=None, conversation_delete=False)
     return response
 
 if __name__ == "__main__":
-    test_product_id = 5201704054770  # Replace with a valid product ID for testing
+    test_product_id = 4009837852291  # Replace with a valid product ID for testing
     recommendation = get_product_recommendation(test_product_id)
+    print("Recommendation Response:", recommendation)
+
+    print("\n")
+
+    time.sleep(2)
+    
+    amount_missing = 3
+    product_id = 4009837852291
+    recommendation = mention_missing_products(product_id=product_id, amount_missing=amount_missing)
+    print("Recommendation Response:", recommendation)
+
+    print("\n")
+    
+    time.sleep(2)
+
+    message = "Is there some other options available"
+    recommendation = talk_to_customer_service(customer_message=message)
+    print("Recommendation Response:", recommendation)
+
+    print("\n")
+    time.sleep(2)
+
+    message = "bye"
+    delete = True
+    recommendation = talk_to_customer_service(customer_message=message, conversation_delete=delete)
     print("Recommendation Response:", recommendation)
