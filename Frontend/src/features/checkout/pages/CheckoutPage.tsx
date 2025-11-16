@@ -17,7 +17,7 @@ import type { Product } from '@/features/bookings/types';
 
 export function CheckoutPage() {
   const navigate = useNavigate();
-  const { items, removeItem, updateQuantity, updateWarnings, warningCount, addItem } = useCart();
+  const { items, removeItem, updateQuantity, updateWarnings, warningCount, addItem, clearCart } = useCart();
   const [isAnalyzing, setIsAnalyzing] = useState(true);
   const [analysisComplete, setAnalysisComplete] = useState(false);
   const [isSubmittingOrder, setIsSubmittingOrder] = useState(false);
@@ -114,8 +114,10 @@ export function CheckoutPage() {
 
       if (response.success) {
         toast.success('Order placed successfully!');
-        // Navigate to success page or order confirmation
-        // navigate(`/orders/${response.order_id}`);
+        // Clear the cart
+        clearCart();
+        // Navigate to products page
+        navigate('/booking');
       } else {
         toast.error(response.message || 'Failed to place order');
       }

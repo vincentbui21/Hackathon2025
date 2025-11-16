@@ -145,17 +145,23 @@ export function useOrderImageUpload(): UseOrderImageUploadReturn {
 
         // Get the first product from the order to use for apology
         const firstProduct = response.products_in_order?.[0];
+        let apologyResponse = null;
+
         if (firstProduct) {
           // Extract product ID from tracking data or use a default
           const productId = 1; // You may need to adjust this based on actual data structure
           const amountMissing = firstProduct.quantity || 1;
 
-          // Trigger apology message in chat
-          await chatService.triggerOrderApology(productId, amountMissing);
+          // Trigger apology message in chat and get the response
+          apologyResponse = await chatService.triggerOrderApology(productId, amountMissing);
         }
 
-        // Show toast and navigate to chat
-        toast.error('Order validation failed', {
+        // Show toast based on error type
+        const errorMessage = response.error_type === 'ai_counting_failed'
+          ? 'AI counting failed'
+          : 'Order validation failed';
+
+        toast.error(errorMessage, {
           description: 'Some items appear to be missing. Check the chat for assistance.',
           action: {
             label: 'Go to Chat',
@@ -163,9 +169,13 @@ export function useOrderImageUpload(): UseOrderImageUploadReturn {
           },
         });
 
-        // Navigate to chat after a short delay
+        // Navigate to chat with the apology message
         setTimeout(() => {
-          navigate('/chat');
+          navigate('/chat', {
+            state: {
+              apologyMessage: apologyResponse
+            }
+          });
         }, 2000);
       }
     } catch (err: any) {

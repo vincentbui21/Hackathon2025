@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Send, User, Bot, Loader2, Trash2, AlertCircle, ShoppingCart } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
@@ -8,6 +8,9 @@ import { chatService } from '../services/chat.service';
 import type { Message } from '../types/chat.types';
 
 export function ChatInterface() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -20,7 +23,6 @@ export function ChatInterface() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -29,6 +31,25 @@ export function ChatInterface() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Handle apology message from navigation state
+  useEffect(() => {
+    const apologyData = location.state?.apologyMessage;
+    if (apologyData) {
+      const apologyMessage: Message = {
+        id: Date.now().toString(),
+        text: apologyData.Answers || 'I apologize for the inconvenience with your order.',
+        sender: 'assistant',
+        timestamp: new Date(),
+        productOptions: apologyData.Options || undefined,
+      };
+
+      setMessages((prev) => [...prev, apologyMessage]);
+
+      // Clear the navigation state to prevent duplicate messages
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location.state, navigate, location.pathname]);
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
