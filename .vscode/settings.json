@@ -11,7 +11,7 @@
             "port": 3306,
             "driver": "MySQL",
             "name": "GCP",
-            "database": "valioaimo",
+            "database": "valioaimo_test",
             "username": "admin",
             "password": "123"
         }

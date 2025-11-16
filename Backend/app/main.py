@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import booking, checkout, service_bot, validator
+from routers import booking, checkout, service_bot, validator, test
 
 app = FastAPI(title="Snack Overflow API")
 
@@ -17,6 +17,7 @@ app.include_router(booking.router) #/booking
 app.include_router(checkout.router) #/checkout
 app.include_router(service_bot.router) #/service
 app.include_router(validator.router) #/validate
+app.include_router(test.router) #/validate
 
 @app.get("/")
 def root():
