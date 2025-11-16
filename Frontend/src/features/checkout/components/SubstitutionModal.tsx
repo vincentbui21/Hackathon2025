@@ -55,6 +55,18 @@ export function SubstitutionModal({
     onClose();
   };
 
+  // Find the highest prediction score
+  const getHighestScore = () => {
+    if (substitutes.length === 0) return 0;
+    return Math.max(...substitutes.map(s => s.Prediction_score ?? 0));
+  };
+
+  // Check if this substitute has the highest score
+  const isBestMatch = (substitute: Product) => {
+    const highestScore = getHighestScore();
+    return highestScore > 0 && substitute.Prediction_score === highestScore;
+  };
+
   // Generate initials from product name
   const getInitials = (name: string) => {
     const words = name.split(' ').filter(word => word.length > 0);
@@ -121,9 +133,14 @@ export function SubstitutionModal({
                       <div className="flex items-start justify-between gap-4 mb-2">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            {index === 0 && (
+                            {isBestMatch(substitute) && (
                               <Badge className="bg-green-100 text-green-800 border-green-300">
-                                Best Match
+                                Best
+                              </Badge>
+                            )}
+                            {substitute.Prediction_score && (
+                              <Badge variant="secondary" className="text-xs">
+                                {(substitute.Prediction_score * 100).toFixed(0)}% match
                               </Badge>
                             )}
                           </div>
