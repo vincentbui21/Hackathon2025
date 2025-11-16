@@ -3,6 +3,7 @@ import { Button } from '@/shared/components/ui/button';
 import { Badge } from '@/shared/components/ui/badge';
 import { ShoppingCart, Package, AlertCircle } from 'lucide-react';
 import type { Product } from '../types';
+import { parseAllergens, formatAllergen } from '../utils/allergens';
 
 interface ProductCardProps {
   product: Product;
@@ -10,110 +11,70 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onAddToCart }: ProductCardProps) {
-  const hasAllergens = product.Allergens.length > 0;
+  const allergensList = parseAllergens(product.Allergens);
   const isOutOfStock = product.Quantity === 0;
-  const isLowStock = product.Quantity > 0 && product.Quantity < 20;
+
+  // Generate initials from product name
+  const getInitials = (name: string) => {
+    const words = name.split(' ').filter(word => word.length > 0);
+    if (words.length === 1) {
+      return words[0].substring(0, 2).toUpperCase();
+    }
+    return words.slice(0, 2).map(word => word[0]).join('').toUpperCase();
+  };
 
   return (
-    <Card className="group h-full flex flex-col overflow-hidden hover:shadow-xl transition-all duration-300 border-0 shadow-md">
-      {/* Product Image */}
-      <div className="relative w-full aspect-square overflow-hidden bg-gray-100">
-        <img
-          src={product.imageUrl}
-          alt={product.Product_name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          loading="lazy"
-        />
-
-        {/* Stock Badge */}
-        <div className="absolute top-3 right-3 flex flex-col gap-2">
-          {isOutOfStock ? (
-            <Badge variant="destructive" className="shadow-lg">
-              Out of Stock
-            </Badge>
-          ) : isLowStock ? (
-            <Badge className="bg-amber-500 hover:bg-amber-600 shadow-lg">
-              <AlertCircle className="w-3 h-3 mr-1" />
-              Low Stock
-            </Badge>
-          ) : (
-            <Badge variant="secondary" className="shadow-lg">
-              <Package className="w-3 h-3 mr-1" />
-              {product.Quantity} in stock
-            </Badge>
-          )}
-        </div>
-
-        {/* Allergen Badge */}
-        {hasAllergens && (
-          <div className="absolute top-3 left-3">
-            <Badge variant="destructive" className="shadow-lg">
-              <AlertCircle className="w-3 h-3 mr-1" />
-              Contains Allergens
-            </Badge>
+    <Card className="group h-full flex flex-col overflow-hidden hover:border-black transition-all duration-200 bg-white">
+      {/* Product Image/Initials */}
+      <div className="relative w-full aspect-square overflow-hidden border-b">
+        {product.imageUrl ? (
+          <img
+            src={product.imageUrl}
+            alt={product.Product_name}
+            className="w-full h-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gray-50">
+            <span className="text-black font-light text-7xl select-none tracking-wider">
+              {getInitials(product.Product_name)}
+            </span>
           </div>
         )}
       </div>
 
       {/* Product Details */}
-      <CardContent className="flex-1 p-4 space-y-3">
-        <div>
-          <h3 className="font-bold text-lg leading-tight mb-1 line-clamp-2 min-h-[3.5rem]">
+      <CardContent className="flex-1 p-6 space-y-4">
+        <div className="space-y-1">
+          <h3 className="font-medium text-base leading-tight line-clamp-2">
             {product.Product_name}
           </h3>
-          <p className="text-xs text-muted-foreground">
-            Producer: {product.ProducerID}
+          <p className="text-sm text-gray-500">
+            {product.Quantity} in stock
           </p>
         </div>
 
-        {/* Allergens */}
-        {hasAllergens && (
-          <div>
-            <p className="text-xs font-medium text-muted-foreground mb-1.5">Allergens:</p>
-            <div className="flex flex-wrap gap-1">
-              {product.Allergens.map((allergen) => (
-                <Badge key={allergen} variant="outline" className="text-xs border-red-300 text-red-700">
-                  {allergen}
-                </Badge>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Free From */}
-        {product.Non_allergens.length > 0 && (
-          <div>
-            <p className="text-xs font-medium text-muted-foreground mb-1.5">Free From:</p>
-            <div className="flex flex-wrap gap-1">
-              {product.Non_allergens.slice(0, 3).map((item) => (
-                <Badge key={item} variant="outline" className="text-xs border-green-300 text-green-700">
-                  {item}
-                </Badge>
-              ))}
-              {product.Non_allergens.length > 3 && (
-                <Badge variant="outline" className="text-xs">
-                  +{product.Non_allergens.length - 3} more
-                </Badge>
-              )}
-            </div>
+        {/* Allergens - Only show if present */}
+        {allergensList.length > 0 && (
+          <div className="pt-2 border-t">
+            <p className="text-xs text-gray-400 mb-2">Contains allergens</p>
           </div>
         )}
       </CardContent>
 
       {/* Footer with Price and Action */}
-      <CardFooter className="p-4 pt-0 flex items-end justify-between gap-3">
+      <CardFooter className="p-6 pt-0 flex items-center justify-between gap-4">
         <div>
-          <p className="text-xs text-muted-foreground mb-0.5">Price per unit</p>
-          <p className="text-2xl font-bold text-primary">${product.Price.toFixed(2)}</p>
+          <p className="text-2xl font-normal text-black">${product.Price.toFixed(2)}</p>
         </div>
         <Button
           onClick={() => onAddToCart?.(product)}
           disabled={isOutOfStock}
-          size="lg"
-          className="gap-2"
+          variant="outline"
+          size="sm"
+          className="border-black text-black hover:bg-black hover:text-white transition-colors"
         >
-          <ShoppingCart className="w-4 h-4" />
-          {isOutOfStock ? 'Out of Stock' : 'Add'}
+          {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
         </Button>
       </CardFooter>
     </Card>

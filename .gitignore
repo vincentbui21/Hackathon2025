@@ -1,0 +1,6 @@
+Frontend/data/
+Frontend/.env
+Frontend/node_modules/
+Frontend/dist/
+Frontend/build/
+uploads/

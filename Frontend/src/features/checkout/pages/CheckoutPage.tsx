@@ -5,18 +5,43 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui
 import { Button } from '@/shared/components/ui/button';
 import { Badge } from '@/shared/components/ui/badge';
 import { Separator } from '@/shared/components/ui/separator';
-import { ArrowLeft, Loader2, ShoppingCart, AlertTriangle, Trash2, Minus, Plus } from 'lucide-react';
+import { ArrowLeft, Loader2, ShoppingCart, AlertTriangle, Trash2, Minus, Plus, RefreshCw } from 'lucide-react';
 import { ProductWarningCard } from '../components/ProductWarningCard';
 import { CheckoutSummary } from '../components/CheckoutSummary';
-import { mlReliabilityService, warningBuilderService } from '../services';
+import { SubstitutionModal } from '../components/SubstitutionModal';
+import { mlReliabilityService, warningBuilderService, orderService } from '../services';
+import type { TrackingItem } from '../services';
 import { toast } from 'sonner';
+import { parseAllergens, formatAllergen } from '@/features/bookings/utils/allergens';
+import type { Product } from '@/features/bookings/types';
 
 export function CheckoutPage() {
   const navigate = useNavigate();
-  const { items, removeItem, updateQuantity, updateWarnings, warningCount } = useCart();
+  const { items, removeItem, updateQuantity, updateWarnings, warningCount, addItem } = useCart();
   const [isAnalyzing, setIsAnalyzing] = useState(true);
   const [analysisComplete, setAnalysisComplete] = useState(false);
+  const [isSubmittingOrder, setIsSubmittingOrder] = useState(false);
+  const [substitutionModalOpen, setSubstitutionModalOpen] = useState(false);
+  const [selectedProductForSubstitution, setSelectedProductForSubstitution] = useState<Product | null>(null);
   const hasAnalyzed = useRef(false);
+
+  const handleOpenSubstitutionModal = (product: Product) => {
+    setSelectedProductForSubstitution(product);
+    setSubstitutionModalOpen(true);
+  };
+
+  const handleSelectSubstitute = (substitute: Product) => {
+    if (selectedProductForSubstitution) {
+      // Remove the original product
+      removeItem(selectedProductForSubstitution.ProductID);
+      // Add the substitute with the same quantity
+      const originalItem = items.find(i => i.ProductID === selectedProductForSubstitution.ProductID);
+      if (originalItem) {
+        addItem(substitute, originalItem.quantity);
+        toast.success(`Replaced with ${substitute.Product_name}`);
+      }
+    }
+  };
 
   useEffect(() => {
     const runReliabilityCheck = async () => {
@@ -69,10 +94,43 @@ export function CheckoutPage() {
     runReliabilityCheck();
   }, []); // Only run on mount
 
+  const handleOrderSubmit = async () => {
+    try {
+      setIsSubmittingOrder(true);
+
+      // Calculate total
+      const total = items.reduce((sum, item) => sum + (item.Price * item.quantity), 0);
+
+      // Transform cart items to tracking format
+      const tracking: TrackingItem[] = items.map((item) => ({
+        product_id: item.ProductID,
+        ordered_quantity: item.quantity,
+      }));
+
+      console.log('Submitting order:', { total, tracking });
+
+      // Submit order
+      const response = await orderService.createOrder(total, tracking);
+
+      if (response.success) {
+        toast.success('Order placed successfully!');
+        // Navigate to success page or order confirmation
+        // navigate(`/orders/${response.order_id}`);
+      } else {
+        toast.error(response.message || 'Failed to place order');
+      }
+    } catch (error) {
+      console.error('Failed to submit order:', error);
+      toast.error('Failed to place order. Please try again.');
+    } finally {
+      setIsSubmittingOrder(false);
+    }
+  };
+
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-background">
-        <div className="container mx-auto px-4 py-8">
+      <div className="h-full bg-background">
+        <div className="container mx-auto px-6 py-8">
           <Card className="max-w-2xl mx-auto text-center p-12">
             <div className="mb-6">
               <div className="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
@@ -81,7 +139,7 @@ export function CheckoutPage() {
               <h2 className="text-2xl font-bold mb-2">Your cart is empty</h2>
               <p className="text-muted-foreground">Add some products to get started!</p>
             </div>
-            <Button onClick={() => navigate('/bookings')} className="gap-2">
+            <Button onClick={() => navigate('/booking')} className="gap-2">
               <ArrowLeft className="w-4 h-4" />
               Browse Products
             </Button>
@@ -92,11 +150,11 @@ export function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-8">
+    <div className="h-full bg-background">
+      <div className="container mx-auto px-6 py-8">
         {/* Header */}
         <div className="mb-6">
-          <Button variant="ghost" onClick={() => navigate('/bookings')} className="gap-2 mb-4">
+          <Button variant="ghost" onClick={() => navigate('/booking')} className="gap-2 mb-4">
             <ArrowLeft className="w-4 h-4" />
             Continue Shopping
           </Button>
@@ -163,9 +221,11 @@ export function CheckoutPage() {
                                 </Badge>
                               )}
                             </div>
-                            <p className="text-sm text-muted-foreground">
-                              ID: {item.ProductID} • {item.ProducerID}
-                            </p>
+                            {parseAllergens(item.Allergens).length > 0 && (
+                              <p className="text-xs text-muted-foreground">
+                                Contains allergens
+                              </p>
+                            )}
                           </div>
                           <button
                             onClick={() => removeItem(item.ProductID)}
@@ -174,17 +234,6 @@ export function CheckoutPage() {
                             <Trash2 className="w-5 h-5" />
                           </button>
                         </div>
-
-                        {/* Allergens */}
-                        {item.Allergens.length > 0 && (
-                          <div className="flex flex-wrap gap-1 mb-2">
-                            {item.Allergens.map((allergen) => (
-                              <Badge key={allergen} variant="destructive" className="text-xs">
-                                {allergen}
-                              </Badge>
-                            ))}
-                          </div>
-                        )}
 
                         {/* Price and Quantity */}
                         <div className="flex items-center justify-between mt-3">
@@ -219,7 +268,18 @@ export function CheckoutPage() {
 
                     {/* Warning Card */}
                     {item.warning && analysisComplete && (
-                      <ProductWarningCard warning={item.warning} productName={item.Product_name} />
+                      <div className="space-y-3">
+                        <ProductWarningCard warning={item.warning} productName={item.Product_name} />
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleOpenSubstitutionModal(item)}
+                          className="w-full sm:w-auto gap-2"
+                        >
+                          <RefreshCw className="w-4 h-4" />
+                          Find Better Alternative
+                        </Button>
+                      </div>
                     )}
 
                     <Separator />
@@ -236,15 +296,21 @@ export function CheckoutPage() {
             <Button
               className="w-full"
               size="lg"
-              disabled={isAnalyzing}
+              disabled={isAnalyzing || isSubmittingOrder}
+              onClick={handleOrderSubmit}
             >
               {isAnalyzing ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                   Analyzing...
                 </>
+              ) : isSubmittingOrder ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Placing Order...
+                </>
               ) : (
-                'Proceed to Payment'
+                'Order'
               )}
             </Button>
 
@@ -254,6 +320,16 @@ export function CheckoutPage() {
           </div>
         </div>
       </div>
+
+      {/* Substitution Modal */}
+      {selectedProductForSubstitution && (
+        <SubstitutionModal
+          isOpen={substitutionModalOpen}
+          onClose={() => setSubstitutionModalOpen(false)}
+          product={selectedProductForSubstitution}
+          onSelectSubstitute={handleSelectSubstitute}
+        />
+      )}
     </div>
   );
 }

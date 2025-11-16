@@ -1,14 +1,17 @@
 export const API_ENDPOINTS = {
   // Bookings/Products
-  PRODUCTS: '/products',
-  PRODUCT_BY_ID: (id: string) => `/products/${id}`,
+  PRODUCTS: '/booking/products',
+  PRODUCT_BY_ID: (id: string) => `/booking/products/${id}`,
 
   // Checkout
   RELIABILITY_CHECK: '/reliability/check',
-  SUBSTITUTES: (productId: string) => `/products/${productId}/substitutes`,
+  SUBSTITUTES: '/service/alternative',
 
   // Orders
-  ORDERS: '/orders',
+  ORDER: '/checkout/order',
+  ORDERS: '/checkout/order',
+  BOOKING_ORDERS: '/booking/orders',
   ORDER_BY_ID: (id: string) => `/orders/${id}`,
   ORDER_TRACKING: (orderNumber: string) => `/orders/${orderNumber}/tracking`,
+  VALIDATE_ORDER: '/validate',
 } as const;

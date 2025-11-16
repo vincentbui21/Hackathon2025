@@ -28,28 +28,23 @@ export function BookingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Hero Header */}
-      <div className="bg-white border-b shadow-sm">
-        <div className="container mx-auto px-4 py-6">
+    <div className="h-full bg-background">
+      {/* Page Header */}
+      <div className="border-b bg-background">
+        <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center">
-                <Package2 className="w-6 h-6 text-primary-foreground" />
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold tracking-tight">Premium Ingredients</h1>
-                <p className="text-muted-foreground">
-                  Curated selection of high-quality products for your business
-                </p>
-              </div>
+            <div>
+              <h1 className="text-2xl font-bold tracking-tight">Products</h1>
+              <p className="text-sm text-muted-foreground">
+                Browse our curated selection of premium ingredients
+              </p>
             </div>
 
             {/* Cart Button */}
             <Button
               onClick={() => navigate('/checkout')}
               size="lg"
-              className="relative gap-2 shadow-lg"
+              className="relative gap-2"
             >
               <ShoppingCart className="w-5 h-5" />
               <span className="font-semibold">Cart</span>
@@ -71,8 +66,8 @@ export function BookingsPage() {
       </div>
 
       {/* Search and Filters */}
-      <div className="bg-white border-b">
-        <div className="container mx-auto px-4 py-4">
+      <div className="border-b bg-background">
+        <div className="container mx-auto px-6 py-4">
           <div className="flex flex-col sm:flex-row gap-4 items-center">
             {/* Search Bar */}
             <div className="relative flex-1 w-full">
@@ -82,7 +77,7 @@ export function BookingsPage() {
                 placeholder="Search products by name, ID, or producer..."
                 value={searchQuery}
                 onChange={(e) => handleSearch(e.target.value)}
-                className="pl-10 h-12 text-base shadow-sm"
+                className="pl-10 h-10 text-base"
               />
             </div>
 
