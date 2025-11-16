@@ -17,7 +17,6 @@ app.include_router(booking.router) #/booking
 app.include_router(checkout.router) #/checkout
 app.include_router(service_bot.router) #/service
 app.include_router(validator.router) #/validate
-app.include_router(test.router) #/validate
 
 @app.get("/")
 def root():
