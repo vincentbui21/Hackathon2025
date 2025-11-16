@@ -1,4 +1,4 @@
-import { Package2, ShoppingCart, FileText, LayoutDashboard } from 'lucide-react';
+import { Package2, ShoppingCart, FileText, LayoutDashboard, MessageCircle } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Sidebar,
@@ -31,6 +31,11 @@ const shopItems = [
     url: '/checkout',
     icon: ShoppingCart,
   },
+  {
+    title: 'Chat',
+    url: '/chat',
+    icon: MessageCircle,
+  },
 ];
 
 const orderItems = [
@@ -53,8 +58,8 @@ export function AppSidebar() {
             <Package2 className="w-5 h-5 text-primary-foreground" />
           </div>
           <div className="flex flex-col">
-            <span className="font-semibold text-sm">Premium Ingredients</span>
-            <span className="text-xs text-muted-foreground">Order Management</span>
+            <span className="font-semibold text-sm">Valio Aimo</span>
+            <span className="text-xs text-muted-foreground">2.0</span>
           </div>
         </div>
       </SidebarHeader>

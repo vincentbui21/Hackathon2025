@@ -58,17 +58,19 @@ def get_products_in_order(order_id: int):
             return []
 
         # Fetch complete product details using JOIN
-        ids_tuple = tuple(product_ids)
-        if len(ids_tuple) == 1:
-            ids_tuple = (ids_tuple[0],)
+        print(f"🔍 Looking up product IDs: {product_ids}")
 
+        # Create placeholders for parameterized query
+        placeholders = ', '.join(['%s'] * len(product_ids))
         product_query = f"""
             SELECT *
             FROM Product
-            WHERE ProductID IN {ids_tuple}
+            WHERE ProductID IN ({placeholders})
         """
-        cursor.execute(product_query)
+        cursor.execute(product_query, product_ids)
         products = cursor.fetchall()
+
+        print(f"📦 Found {len(products)} products in database")
 
         # Create a mapping of product_id to full product data
         product_map = {p['ProductID']: p for p in products}
@@ -238,9 +240,11 @@ async def validate_order(image: UploadFile = File(...), order_id: str = Form(...
         # Update order status to completed
         update_order_status(int(order_id), "completed")
         validation_result = "Order validated successfully! Status updated to completed."
+        error_type = None
     else:
-        print("Hello World")
-        validation_result = "Validation failed. Products/quantities in image do not match the order."
+        # print("Hello World")
+        validation_result = "AI counting failed. Products/quantities in image do not match the order."
+        error_type = "ai_counting_failed"
 
     return {
         "order_id": order_id,
@@ -249,5 +253,6 @@ async def validate_order(image: UploadFile = File(...), order_id: str = Form(...
         "file_size": len(content),
         "products_in_order": products_in_order,
         "validation_passed": is_valid,
-        "message": validation_result
+        "message": validation_result,
+        "error_type": error_type
     }

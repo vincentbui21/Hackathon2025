@@ -1,5 +1,8 @@
 import { useState, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { ordersService } from '../services';
+import { chatService } from '@/features/chat/services/chat.service';
 
 interface OrderImageState {
   file: File | null;
@@ -20,6 +23,7 @@ interface UseOrderImageUploadReturn {
 export function useOrderImageUpload(): UseOrderImageUploadReturn {
   const [orderImages, setOrderImages] = useState<{ [orderId: number]: OrderImageState }>({});
   const fileInputRefs = useRef<{ [orderId: number]: HTMLInputElement | null }>({});
+  const navigate = useNavigate();
 
   const handleFileSelect = useCallback((orderId: number, file: File | null) => {
     if (!file) {
@@ -95,32 +99,85 @@ export function useOrderImageUpload(): UseOrderImageUploadReturn {
     }));
 
     try {
-      await ordersService.validateOrder(orderId, orderImage.file);
-      setOrderImages(prev => ({
-        ...prev,
-        [orderId]: {
-          ...prev[orderId],
-          uploading: false,
-          success: true,
-        },
-      }));
+      const response = await ordersService.validateOrder(orderId, orderImage.file);
 
-      // Clear success message after 3 seconds
-      setTimeout(() => {
-        setOrderImages(prev => {
-          const current = prev[orderId];
-          if (current?.success) {
-            return {
-              ...prev,
-              [orderId]: {
-                ...current,
-                success: false,
-              },
-            };
-          }
-          return prev;
+      // Check if validation passed
+      if (response.validation_passed) {
+        setOrderImages(prev => ({
+          ...prev,
+          [orderId]: {
+            ...prev[orderId],
+            uploading: false,
+            success: true,
+          },
+        }));
+
+        toast.success('Order validated successfully!', {
+          description: 'Your order has been completed.',
         });
-      }, 3000);
+
+        // Clear success message after 3 seconds
+        setTimeout(() => {
+          setOrderImages(prev => {
+            const current = prev[orderId];
+            if (current?.success) {
+              return {
+                ...prev,
+                [orderId]: {
+                  ...current,
+                  success: false,
+                },
+              };
+            }
+            return prev;
+          });
+        }, 3000);
+      } else {
+        // Validation failed - trigger apology flow
+        setOrderImages(prev => ({
+          ...prev,
+          [orderId]: {
+            ...prev[orderId],
+            uploading: false,
+            success: false,
+          },
+        }));
+
+        // Get the first product from the order to use for apology
+        const firstProduct = response.products_in_order?.[0];
+        let apologyResponse = null;
+
+        if (firstProduct) {
+          // Extract product ID from tracking data or use a default
+          const productId = 1; // You may need to adjust this based on actual data structure
+          const amountMissing = firstProduct.quantity || 1;
+
+          // Trigger apology message in chat and get the response
+          apologyResponse = await chatService.triggerOrderApology(productId, amountMissing);
+        }
+
+        // Show toast based on error type
+        const errorMessage = response.error_type === 'ai_counting_failed'
+          ? 'AI counting failed'
+          : 'Order validation failed';
+
+        toast.error(errorMessage, {
+          description: 'Some items appear to be missing. Check the chat for assistance.',
+          action: {
+            label: 'Go to Chat',
+            onClick: () => navigate('/chat'),
+          },
+        });
+
+        // Navigate to chat with the apology message
+        setTimeout(() => {
+          navigate('/chat', {
+            state: {
+              apologyMessage: apologyResponse
+            }
+          });
+        }, 2000);
+      }
     } catch (err: any) {
       setOrderImages(prev => ({
         ...prev,
@@ -130,8 +187,12 @@ export function useOrderImageUpload(): UseOrderImageUploadReturn {
           error: err.message || 'Failed to upload image',
         },
       }));
+
+      toast.error('Upload failed', {
+        description: err.message || 'Failed to upload image',
+      });
     }
-  }, [orderImages]);
+  }, [orderImages, navigate]);
 
   const clearImage = useCallback((orderId: number) => {
     // Revoke the object URL to free memory

@@ -65,6 +65,58 @@ def extract_json(content: str):
             continue
 
     return None
+def delete_history():
+    try:
+        os.remove("conversation_history.txt")
+    except FileNotFoundError:
+        pass
+
+def save_to_history(role: str, message: str):
+    """Append a message to the conversation history file."""
+    with open("conversation_history.txt", "a") as f:
+        f.write(f"{role}: {message}\n")
+
+
+def load_history(max_lines: int = 20) -> str:
+    """Load the most recent N lines from the history file."""
+    try:
+        with open("conversation_history.txt", "r") as f:
+            lines = f.readlines()
+            return "".join(lines[-max_lines:])
+    except FileNotFoundError:
+        return ""
+
+def extract_json(content: str):
+    """Extract the FIRST valid JSON object from LLM output."""
+
+    # 1. Remove fenced ```json code blocks
+    content = re.sub(r"```json(.*?)```", r"\1", content, flags=re.DOTALL)
+    content = re.sub(r"```(.*?)```", r"\1", content, flags=re.DOTALL)
+
+    # 2. Try direct load
+    try:
+        return json.loads(content)
+    except:
+        pass
+
+    # 3. Remove comments like // text
+    cleaned = re.sub(r"//.*", "", content)
+
+    # 4. Try full cleaned content
+    try:
+        return json.loads(cleaned)
+    except:
+        pass
+
+    # 5. Extract ANY JSON block
+    blocks = re.findall(r"\{(?:[^{}]|(?:\{[^{}]*\}))*\}", cleaned, flags=re.DOTALL)
+    for block in blocks:
+        try:
+            return json.loads(block)
+        except:
+            continue
+
+    return None
 
 CONTEXT_FILE = "customer_context.txt"
 ALT_MEMORY_FILE = "alternatives_memory.json"
@@ -442,14 +494,22 @@ class ValioCustomerServiceLLM:
         # MODE 1 — Normal Recommendation mode
         # ------------------------------------------------------
         elif product_id is not None:
+        elif product_id is not None:
             prompt = f"""
+        You are an expert product recommendation engine.
         You are an expert product recommendation engine.
 
         Your task:
         - Pick the BEST 3 alternatives to product ID {product_id}.
         - Exclude the product with ID {product_id}.
         - Output ONLY JSON.
+        Your task:
+        - Pick the BEST 3 alternatives to product ID {product_id}.
+        - Exclude the product with ID {product_id}.
+        - Output ONLY JSON.
 
+        Products:
+        {json.dumps(compressed)}
         Products:
         {json.dumps(compressed)}
 
@@ -459,12 +519,24 @@ class ValioCustomerServiceLLM:
         }}
         """
 
+        {{
+            "Answers": "Short friendly explanation.",
+            "Options": [best_ID_1, best_ID_2, best_ID_3]
+        }}
+        """
+
         # ------------------------------------------------------
+        # MODE 3 — Conversation mode
         # MODE 3 — Conversation mode
         # ------------------------------------------------------
         else:
             history = load_history()
+            history = load_history()
             prompt = f"""
+        You are a friendly and professional customer service agent.
+
+        Conversation history:
+        {history}
         You are a friendly and professional customer service agent.
 
         Conversation history:
@@ -472,7 +544,20 @@ class ValioCustomerServiceLLM:
 
         Customer message:
         "{customer_message}"
+        Customer message:
+        "{customer_message}"
 
+        OUTPUT ONLY JSON IF CUSTOMER IS ASKING FOR MORE ALTERNATIVES:
+        {{
+            "Answers": "Your friendly message.",
+            "Options": [best_ID_1, best_ID_2, best_ID_3]
+        }}
+
+        IF CUSTOMER IS JUST CHATTING, RESPOND:
+        {{
+            "Answers": "Your friendly message."
+        }}
+        """
         OUTPUT ONLY JSON IF CUSTOMER IS ASKING FOR MORE ALTERNATIVES:
         {{
             "Answers": "Your friendly message.",
@@ -495,13 +580,31 @@ class ValioCustomerServiceLLM:
             json={
                 "model": MODEL,
                 "messages": [{"role": "user", "content": prompt}],
-                "temperature": 0.2,
+                "temperature": 0.0,
                 "max_tokens": 300
             }
         )
 
         data = response.json()
         content = data["choices"][0]["message"]["content"].strip()
+
+        # Extract JSON with robust extractor
+        result = extract_json(content)
+        if result is None:
+            return {"error": "No valid JSON found", "raw": content}
+
+        # Save history
+        if customer_message:
+            save_to_history("User", customer_message)
+        if "Answers" in result:
+            save_to_history("AI", result["Answers"])
+        if product_id is not None and "Options" in result:
+            save_to_history("AI", f"Recommended product IDs: {result['Options']}")
+        
+        if conversation_delete:
+            delete_history()
+
+        return result
 
         # Extract JSON with robust extractor
         result = extract_json(content)
