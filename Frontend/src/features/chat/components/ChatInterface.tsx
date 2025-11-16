@@ -46,10 +46,11 @@ export function ChatInterface() {
 
       setMessages((prev) => [...prev, apologyMessage]);
 
-      // Clear the navigation state to prevent duplicate messages
-      navigate(location.pathname, { replace: true, state: {} });
+      // Clear the navigation state immediately to prevent duplicate messages
+      window.history.replaceState({}, document.title);
     }
-  }, [location.state, navigate, location.pathname]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run once on mount
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
@@ -163,18 +164,24 @@ export function ChatInterface() {
                     <div className="mt-2 pt-2 border-t border-border">
                       <p className="text-xs font-semibold mb-2">Product Recommendations:</p>
                       <div className="flex flex-wrap gap-2">
-                        {message.productOptions.map((productId) => (
-                          <Button
-                            key={productId}
-                            size="sm"
-                            variant="secondary"
-                            className="text-xs h-7"
-                            onClick={() => navigate(`/products/${productId}`)}
-                          >
-                            <ShoppingCart className="h-3 w-3 mr-1" />
-                            Product #{productId}
-                          </Button>
-                        ))}
+                        {message.productOptions.map((product) => {
+                          // Handle both number IDs and product objects
+                          const productId = typeof product === 'number' ? product : product.id;
+                          const productName = typeof product === 'number' ? `Product #${product}` : product.name;
+
+                          return (
+                            <Button
+                              key={productId}
+                              size="sm"
+                              variant="secondary"
+                              className="text-xs h-7"
+                              onClick={() => navigate('/checkout', { state: { productId } })}
+                            >
+                              <ShoppingCart className="h-3 w-3 mr-1" />
+                              {productName}
+                            </Button>
+                          );
+                        })}
                       </div>
                     </div>
                   )}
