@@ -11,9 +11,16 @@ class ChatMessageRequest(BaseModel):
     conversation_delete: bool = False
 
 
+class ProductOption(BaseModel):
+    id: int
+    name: str
+    price: float
+    score: float
+
+
 class ChatMessageResponse(BaseModel):
     Answers: str
-    Options: list[int] | None = None
+    Options: list[int | ProductOption] | None = None
 
 
 @router.post("/message", response_model=ChatMessageResponse)
@@ -70,10 +77,31 @@ def order_apology(request: OrderApologyRequest):
         ChatMessageResponse with apology message and product alternatives
     """
     try:
+        print(f"🤖 Generating apology for product_id={request.product_id}, amount_missing={request.amount_missing}")
+
         response = mention_missing_products(
             product_id=request.product_id,
             amount_missing=request.amount_missing
         )
+
+        print(f"📤 LLM Response: {response}")
+
+        # Ensure response has the correct structure
+        if not isinstance(response, dict):
+            response = {"Answers": str(response), "Options": None}
+
+        # If no Answers field, provide a default message
+        if "Answers" not in response or not response["Answers"]:
+            response["Answers"] = "I apologize for the inconvenience with your order. We detected a discrepancy in your delivery. Let me help you find suitable alternatives."
+
+        # If no options are returned or options is empty, add a fallback message
+        if not response.get("Options") or len(response.get("Options", [])) == 0:
+            response["Answers"] = "I apologize for the inconvenience with your order. Unfortunately, I don't have any alternative products to recommend at this time. Please contact our customer service for further assistance."
+            response["Options"] = None
+
+        print(f"✅ Final response: Answers={response.get('Answers')[:100] if response.get('Answers') else 'None'}..., Options count={len(response.get('Options', []) or [])}")
+
         return response
     except Exception as e:
+        print(f"❌ Error in order_apology: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Order apology service error: {str(e)}")

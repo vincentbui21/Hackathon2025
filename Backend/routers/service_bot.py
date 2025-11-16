@@ -39,52 +39,58 @@ def fetch_alternative_products(product_id: int):
     if not product:
         cursor.close()
         connection.close()
-        return None, []
+        return None, [], None
 
     # Call LLM
     raw = get_product_recommendation(product_id)
 
+    # Extract the LLM explanation
+    llm_explanation = None
+    alternatives = []
+
     if isinstance(raw, dict):
-        ids = raw.get("Options", [])
-    else:
-        ids = []
+        options = raw.get("Options", [])
+        llm_explanation = raw.get("Answers", None)
 
-    # Validate IDs
-    ids = [
-        int(x) for x in ids
-        if isinstance(x, int) or (isinstance(x, str) and x.isdigit())
-    ]
+        # Check if Options contains full product objects or just IDs
+        if options and isinstance(options[0], dict):
+            # LLM returned full product objects - extract IDs and fetch from DB
+            ids = [int(opt.get("id", 0)) for opt in options if opt.get("id")]
+        else:
+            # LLM returned just IDs
+            ids = [
+                int(x) for x in options
+                if isinstance(x, int) or (isinstance(x, str) and x.isdigit())
+            ]
 
-    # Fetch alternative product details
-    if ids:
-        ids_tuple = tuple(ids)
-        if len(ids_tuple) == 1:
-            ids_tuple = (ids_tuple[0],)
-        cursor.execute(f"""
-            SELECT *
-            FROM Product
-            WHERE ProductID IN {ids_tuple};
-        """)
-        alternatives = cursor.fetchall()
-    else:
-        alternatives = []
+        # Fetch alternative product details from database
+        if ids:
+            # Create placeholders for parameterized query
+            placeholders = ', '.join(['%s'] * len(ids))
+            cursor.execute(f"""
+                SELECT *
+                FROM Product
+                WHERE ProductID IN ({placeholders});
+            """, ids)
+            alternatives = cursor.fetchall()
 
     cursor.close()
     connection.close()
-    return product, alternatives
+    return product, alternatives, llm_explanation
 
 
 # --------------------- /alternative ---------------------
 @router.post("/alternative")
 def get_product_and_alternatives(request: ProductRequest):
-    product, alternatives = fetch_alternative_products(request.product_id)
+    product, alternatives, llm_response = fetch_alternative_products(request.product_id)
 
     if not product:
         return {"error": "Product not found"}
 
     return {
         "product": product,
-        "alternatives": alternatives
+        "alternatives": alternatives,
+        "llm_response": llm_response
     }
 
 
@@ -100,7 +106,7 @@ def handle_missing_product(request: MissingItemsRequest):
     )
 
     # 2. fetch actual product + alt products from DB
-    product, alternatives = fetch_alternative_products(request.product_id)
+    product, alternatives, _ = fetch_alternative_products(request.product_id)
 
     if not product:
         return {"error": "Product not found"}
