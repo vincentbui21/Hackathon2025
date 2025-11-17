@@ -494,22 +494,14 @@ class ValioCustomerServiceLLM:
         # MODE 1 — Normal Recommendation mode
         # ------------------------------------------------------
         elif product_id is not None:
-        elif product_id is not None:
             prompt = f"""
         You are an expert product recommendation engine.
-        You are an expert product recommendation engine.
 
         Your task:
         - Pick the BEST 3 alternatives to product ID {product_id}.
         - Exclude the product with ID {product_id}.
         - Output ONLY JSON.
-        Your task:
-        - Pick the BEST 3 alternatives to product ID {product_id}.
-        - Exclude the product with ID {product_id}.
-        - Output ONLY JSON.
 
-        Products:
-        {json.dumps(compressed)}
         Products:
         {json.dumps(compressed)}
 
@@ -519,31 +511,18 @@ class ValioCustomerServiceLLM:
         }}
         """
 
-        {{
-            "Answers": "Short friendly explanation.",
-            "Options": [best_ID_1, best_ID_2, best_ID_3]
-        }}
-        """
+        
 
-        # ------------------------------------------------------
-        # MODE 3 — Conversation mode
         # MODE 3 — Conversation mode
         # ------------------------------------------------------
         else:
             history = load_history()
-            history = load_history()
             prompt = f"""
         You are a friendly and professional customer service agent.
 
         Conversation history:
         {history}
-        You are a friendly and professional customer service agent.
 
-        Conversation history:
-        {history}
-
-        Customer message:
-        "{customer_message}"
         Customer message:
         "{customer_message}"
 
@@ -558,17 +537,7 @@ class ValioCustomerServiceLLM:
             "Answers": "Your friendly message."
         }}
         """
-        OUTPUT ONLY JSON IF CUSTOMER IS ASKING FOR MORE ALTERNATIVES:
-        {{
-            "Answers": "Your friendly message.",
-            "Options": [best_ID_1, best_ID_2, best_ID_3]
-        }}
 
-        IF CUSTOMER IS JUST CHATTING, RESPOND:
-        {{
-            "Answers": "Your friendly message."
-        }}
-        """
 
         # Call API
         response = requests.post(
